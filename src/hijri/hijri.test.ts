@@ -2,20 +2,20 @@ import { gregorianToHijri, hijriToGregorian } from "./hijri";
 
 describe('hijri', () => {
 
-  it('gregorianToHijri: past date', () => {
+  test('gregorianToHijri: past date', () => {
     const output = gregorianToHijri(new Date('1957-10-16'));
     expect(output).toBeTruthy();
     expect(output).toEqual([1377, 3, 22]);
   });
 
-  it('gregorianToHijri: future date', () => {
+  test('gregorianToHijri: future date', () => {
     const output = gregorianToHijri(new Date('2060-06-11'));
     expect(output).toBeTruthy();
     expect(output).toEqual([1483, 1, 12]);
   });
 
 
-  it('hijriToGregorian: past date', () => {
+  test('hijriToGregorian: past date', () => {
     const output = hijriToGregorian(1377, 3, 22);
     expect(output).toBeTruthy();
     if(output){
@@ -25,7 +25,7 @@ describe('hijri', () => {
     }
   });
 
-  it('hijriToGregorian: future date', () => {
+  test('hijriToGregorian: future date', () => {
     const output = hijriToGregorian(1483, 1, 12);
     expect(output).toBeTruthy();
     if(output){
