@@ -1,0 +1,42 @@
+{
+  "name": "intl-date",
+  "version": "0.1.0-alpha",
+  "description": "Javascript library to represent and work with dates in different calendar systems (e.g. `hijri`, `persian` and others).",
+  "keywords": [
+    "date",
+    "Hijri",
+    "i18n",
+    "intl",
+    "calendar"
+  ],
+  "author": "Khalid H. Alharisi",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/coder966/intl-date/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coder966/intl-date"
+  },
+  "private": false,
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "microbundle watch",
+    "build": "microbundle",
+    "prepare": "build",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^28.1.4",
+    "@types/node": "^18.0.3",
+    "jest": "^28.1.2",
+    "microbundle": "^0.15.0",
+    "ts-jest": "^28.0.5"
+  }
+}
