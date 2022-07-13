@@ -32,6 +32,11 @@ class IntlDate {
     return new IntlDate(calendarType, year, month, day);
   }
 
+  static today = () : IntlDate => {
+    const today = new Date();
+    return new IntlDate('gregorian', today.getFullYear(), today.getMonth() + 1, today.getDate());
+  }
+
   getYear = (calendarType: CalendarType) : number => {
     if (calendarType === 'gregorian') {
       return this.g.getFullYear();

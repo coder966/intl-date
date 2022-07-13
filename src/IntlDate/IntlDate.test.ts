@@ -2,6 +2,15 @@ import IntlDate from "./IntlDate";
 
 describe('IntlDate', () => {
 
+  test('today', () => {
+    const jsDate = new Date();
+    const intlDate = IntlDate.today();
+    expect(intlDate).toBeTruthy();
+    expect(intlDate.getYear('gregorian')).toEqual(jsDate.getFullYear());
+    expect(intlDate.getMonth('gregorian')).toEqual(jsDate.getMonth()+1);
+    expect(intlDate.getDay('gregorian')).toEqual(jsDate.getDate());
+  });
+
   test('gregorian past date', () => {
     const intlDate = IntlDate.of('gregorian', 1957, 10, 16);
     expect(intlDate).toBeTruthy();
