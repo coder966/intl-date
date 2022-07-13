@@ -1,3 +1,4 @@
+import benchmark from "../benchmark.test";
 import { gregorianToHijri, hijriToGregorian } from "./hijri";
 
 describe('hijri', () => {
@@ -33,6 +34,19 @@ describe('hijri', () => {
       expect(output.getMonth()+1).toEqual(6);
       expect(output.getDate()).toEqual(11);  
     }
+  });
+
+  test('perf: gregorianToHijri throughput', () => {
+    const input = new Date('1957-10-16');
+    benchmark('gregorianToHijri', 1000, () => {
+      gregorianToHijri(input);
+    });
+  });
+
+  test('perf: hijriToGregorian throughput', () => {
+    benchmark('gregorianToHijri', 1000, () => {
+      hijriToGregorian(1377, 3, 22);
+    });
   });
 
 })
