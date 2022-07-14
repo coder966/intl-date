@@ -17,20 +17,17 @@ const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
   }
 };
 
-const hijriToGregorianRecursive = (y: number, m: number, d: number, guess: Date, adjustDays: number): Date => {
-  guess.setDate(guess.getDate() + adjustDays);
-  const hijriGuess = fromGregorian('islamic-umalqura', guess);
-
-  if (hijriGuess[0] === y && hijriGuess[1] === m && hijriGuess[2] === d) {
-    return guess; // we found it, stop
-  } else {
-    const approximateDays = y * 365 + m * 30 + d - (hijriGuess[0] * 365 + hijriGuess[1] * 30 + hijriGuess[2]);
-    return hijriToGregorianRecursive(y, m, d, guess, approximateDays);
-  }
-};
-
 const hijriToGregorian = (y: number, m: number, d: number): Date => {
-  return hijriToGregorianRecursive(y, m, d, new Date(), 0);
+  let guess = new Date();
+  let hijriGuess = fromGregorian('islamic-umalqura', guess);
+
+  while (hijriGuess[0] !== y || hijriGuess[1] !== m || hijriGuess[2] !== d) {
+    const adjustDays = y * 365 + m * 30 + d - (hijriGuess[0] * 365 + hijriGuess[1] * 30 + hijriGuess[2]);
+    guess.setDate(guess.getDate() + adjustDays);
+    hijriGuess = fromGregorian('islamic-umalqura', guess);
+  }
+
+  return guess;
 };
 
 export { fromGregorian, hijriToGregorian };
