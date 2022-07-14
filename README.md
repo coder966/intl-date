@@ -1,8 +1,73 @@
 # Intl Date
 
-Javascript library to represent and work with dates in different calendar systems (e.g. `hijri`, `persian` and others).
+Javascript library to represent and work with dates in different calendar systems (e.g. hijri, persian and others).
 
+## Features
 
+- Simple and type-safe API
+- Immutable objects
+- Supports 7 calendar systems
+- Zero dependencies. Uses the native `Intl.DateTimeFormat` under the hood.
+
+## Supported Calendars
+
+- gregorian
+- islamic
+- islamic-umalqura
+- islamic-rgsa
+- islamic-civil
+- islamic-tbla
+- persian
+
+## Example
+
+```javascript
+const date = IntlDate.of('islamic-umalqura', 1377, 3, 22);
+
+date.getYear('gregorian'); // 1957
+date.getMonth('gregorian'); // 10
+date.getDay('gregorian'); // 16
+
+date.getYear('islamic-umalqura'); // 1377
+date.getMonth('islamic-umalqura'); // 3
+date.getDay('islamic-umalqura'); // 22
+
+date.getYear('persian'); // 1336
+date.getMonth('persian'); // 7
+date.getDay('persian'); // 24
+```
+
+## API
+
+### of
+
+```javascript
+const date = IntlDate.of('islamic-umalqura', 1377, 3, 22);
+```
+
+### today
+
+```javascript
+const date = IntlDate.today();
+```
+
+### getYear
+
+```javascript
+const year = date.getYear('islamic-umalqura');
+```
+
+### getMonth
+
+```javascript
+const month = date.getMonth('gregorian');
+```
+
+### getDay
+
+```javascript
+const day = date.getDay('persian');
+```
 
 ## License
 
