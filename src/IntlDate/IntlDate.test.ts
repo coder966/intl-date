@@ -21,6 +21,15 @@ describe('IntlDate', () => {
     expect(intlDate.getDay('gregorian')).toEqual(jsDate.getDate());
   });
 
+  test('created from a date string', () => {
+    const intlDate = IntlDate.parse('gregorian', '1957-5-16');
+
+    expect(intlDate).toBeTruthy();
+    expect(intlDate.getYear('gregorian')).toEqual(1957);
+    expect(intlDate.getMonth('gregorian')).toEqual(5);
+    expect(intlDate.getDay('gregorian')).toEqual(16);
+  });
+
   test('created by gregorian input', () => {
     const intlDate = IntlDate.of('gregorian', 1957, 10, 16);
     expect(intlDate).toBeTruthy();

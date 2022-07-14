@@ -55,6 +55,12 @@ const jsDate = new Date(2017, 11, 25);
 const intlDate = IntlDate.from(jsDate);
 ```
 
+### parse
+
+```javascript
+const date = IntlDate.parse('gregorian', '1957-05-16');
+```
+
 ### today
 
 ```javascript

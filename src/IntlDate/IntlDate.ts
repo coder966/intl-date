@@ -25,6 +25,33 @@ class IntlDate {
     return new IntlDate('gregorian', jsDate.getFullYear(), jsDate.getMonth() + 1, jsDate.getDate());
   };
 
+  /**
+   * Supports the following formats:
+   * yyyy-mm-dd or yyyy-m-d
+   * yyyy/mm/dd or yyyy/m/d
+   * @param date date string
+   */
+  static parse = (calendarType: CalendarType, date: string): IntlDate => {
+    if (!date || date.length > 10) {
+      throw `Invalid date string ${date}`;
+    }
+
+    // extract date parts
+    let parts = date.split('-');
+    if (parts.length === 1) {
+      parts = date.split('/');
+    }
+    if (parts.length != 3) {
+      throw `Invalid date string ${date}`;
+    }
+
+    const year = parseInt(parts[0]);
+    const month = parseInt(parts[1]);
+    const day = parseInt(parts[2]);
+
+    return new IntlDate(calendarType, year, month, day);
+  };
+
   static today = (): IntlDate => {
     const today = new Date();
     return new IntlDate('gregorian', today.getFullYear(), today.getMonth() + 1, today.getDate());
