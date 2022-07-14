@@ -1,4 +1,4 @@
-import { fromGregorian, hijriToGregorian } from '../date-converter/date-converter';
+import { fromGregorian, toGregorian } from '../date-converter/date-converter';
 
 /**
  * @author Khalid H. Alharisi
@@ -15,7 +15,7 @@ class IntlDate {
       this.h = fromGregorian('islamic-umalqura', this.g);
     } else {
       this.h = [year, month, day];
-      this.g = hijriToGregorian(year, month, day);
+      this.g = toGregorian('islamic-umalqura', year, month, day);
     }
   }
 

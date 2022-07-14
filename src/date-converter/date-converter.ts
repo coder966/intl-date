@@ -17,17 +17,17 @@ const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
   }
 };
 
-const hijriToGregorian = (y: number, m: number, d: number): Date => {
+const toGregorian = (calendarType: CalendarType, y: number, m: number, d: number): Date => {
   let guess = new Date();
-  let hijriGuess = fromGregorian('islamic-umalqura', guess);
+  let convertedGuess = fromGregorian(calendarType, guess);
 
-  while (hijriGuess[0] !== y || hijriGuess[1] !== m || hijriGuess[2] !== d) {
-    const adjustDays = y * 365 + m * 30 + d - (hijriGuess[0] * 365 + hijriGuess[1] * 30 + hijriGuess[2]);
+  while (convertedGuess[0] !== y || convertedGuess[1] !== m || convertedGuess[2] !== d) {
+    const adjustDays = y * 365 + m * 30 + d - (convertedGuess[0] * 365 + convertedGuess[1] * 30 + convertedGuess[2]);
     guess.setDate(guess.getDate() + adjustDays);
-    hijriGuess = fromGregorian('islamic-umalqura', guess);
+    convertedGuess = fromGregorian(calendarType, guess);
   }
 
   return guess;
 };
 
-export { fromGregorian, hijriToGregorian };
+export { fromGregorian, toGregorian };
