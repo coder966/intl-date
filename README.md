@@ -75,6 +75,13 @@ const day = date.getDay('persian');
 const dayOfWeek = date.getDayOfWeek();
 ```
 
+### toString
+
+```javascript
+const date = IntlDate.of('gregorian', 2022, 7, 11);
+const formattedString = date.toString('gregorian'); // 2022-07-11
+```
+
 ### plusDays
 
 ```javascript

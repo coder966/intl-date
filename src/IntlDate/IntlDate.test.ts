@@ -77,4 +77,9 @@ describe('IntlDate', () => {
     expect(newDate.getMonth('gregorian')).toEqual(9);
     expect(newDate.getDay('gregorian')).toEqual(26);
   });
+
+  test('toString', () => {
+    const intlDate = IntlDate.of('gregorian', 2022, 7, 11);
+    expect(intlDate.toString('gregorian')).toEqual('2022-07-11');
+  });
 });

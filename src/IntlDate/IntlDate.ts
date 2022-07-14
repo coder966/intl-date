@@ -93,6 +93,14 @@ class IntlDate {
   minusDays = (days: number): IntlDate => {
     return this.plusDays(days * -1);
   };
+
+  toString = (calendarType: CalendarType): string => {
+    this.validateSupportedCalendarType(calendarType);
+    const y = this.getYear(calendarType);
+    const m = this.getMonth(calendarType);
+    const d = this.getDay(calendarType);
+    return `${y}-${m > 9 ? m : '0' + m}-${d > 9 ? d : '0' + d}`;
+  };
 }
 
 export default IntlDate;
