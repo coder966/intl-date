@@ -29,7 +29,7 @@
   "scripts": {
     "start": "microbundle watch",
     "build": "microbundle",
-    "prepare": "build",
+    "prepare": "npm run build",
     "test": "jest"
   },
   "devDependencies": {
