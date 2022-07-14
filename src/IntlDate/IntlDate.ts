@@ -8,6 +8,7 @@ class IntlDate {
   converted: { [key: string]: number[] } = {};
 
   private constructor(calendarType: CalendarType, year: number, month: number, day: number) {
+    this.validateSupportedCalendarType(calendarType);
     if (calendarType === 'gregorian') {
       this.jsDate = new Date(year, month - 1, day);
     } else {
@@ -25,6 +26,21 @@ class IntlDate {
     return new IntlDate('gregorian', today.getFullYear(), today.getMonth() + 1, today.getDate());
   };
 
+  private validateSupportedCalendarType = (calendarType: string): void => {
+    switch (calendarType) {
+      case 'gregorian':
+      case 'islamic':
+      case 'islamic-umalqura':
+      case 'islamic-rgsa':
+      case 'islamic-civil':
+      case 'islamic-tbla':
+      case 'persian':
+        return;
+      default:
+        throw `Unsupported calendar type ${calendarType}`;
+    }
+  };
+
   private getConverted = (calendarType: CalendarType): number[] => {
     let converted = this.converted[calendarType];
     if (!converted) {
@@ -34,6 +50,7 @@ class IntlDate {
   };
 
   getYear = (calendarType: CalendarType): number => {
+    this.validateSupportedCalendarType(calendarType);
     if (calendarType === 'gregorian') {
       return this.jsDate.getFullYear();
     } else {
@@ -42,6 +59,7 @@ class IntlDate {
   };
 
   getMonth = (calendarType: CalendarType): number => {
+    this.validateSupportedCalendarType(calendarType);
     if (calendarType === 'gregorian') {
       return this.jsDate.getMonth() + 1;
     } else {
@@ -50,6 +68,7 @@ class IntlDate {
   };
 
   getDay = (calendarType: CalendarType): number => {
+    this.validateSupportedCalendarType(calendarType);
     if (calendarType === 'gregorian') {
       return this.jsDate.getDate();
     } else {
