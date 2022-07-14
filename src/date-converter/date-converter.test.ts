@@ -1,16 +1,16 @@
 import benchmark from "../benchmark";
-import { gregorianToHijri, hijriToGregorian } from "./date-converter";
+import { fromGregorian, hijriToGregorian } from "./date-converter";
 
 describe('hijri', () => {
 
-  test('gregorianToHijri: past date', () => {
-    const output = gregorianToHijri(new Date('1957-10-16'));
+  test('fromGregorian: past date', () => {
+    const output = fromGregorian('islamic-umalqura', new Date('1957-10-16'));
     expect(output).toBeTruthy();
     expect(output).toEqual([1377, 3, 22]);
   });
 
-  test('gregorianToHijri: future date', () => {
-    const output = gregorianToHijri(new Date('2060-06-11'));
+  test('fromGregorian: future date', () => {
+    const output = fromGregorian('islamic-umalqura', new Date('2060-06-11'));
     expect(output).toBeTruthy();
     expect(output).toEqual([1483, 1, 12]);
   });
@@ -36,15 +36,15 @@ describe('hijri', () => {
     }
   });
 
-  test('perf: gregorianToHijri throughput', () => {
+  test('perf: fromGregorian throughput', () => {
     const input = new Date('1957-10-16');
-    benchmark('gregorianToHijri', 1000, () => {
-      gregorianToHijri(input);
+    benchmark('fromGregorian', 1000, () => {
+      fromGregorian('islamic-umalqura', input);
     });
   });
 
   test('perf: hijriToGregorian throughput', () => {
-    benchmark('gregorianToHijri', 1000, () => {
+    benchmark('hijriToGregorian', 1000, () => {
       hijriToGregorian(1377, 3, 22);
     });
   });

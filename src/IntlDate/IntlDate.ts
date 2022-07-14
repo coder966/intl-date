@@ -1,4 +1,4 @@
-import { gregorianToHijri, hijriToGregorian } from "../date-converter/date-converter";
+import { fromGregorian, hijriToGregorian } from "../date-converter/date-converter";
 
 /**
  * @author Khalid H. Alharisi
@@ -13,7 +13,7 @@ class IntlDate {
     this.calendarType = calendarType;
     if (calendarType === 'gregorian') {
       this.g = new Date(year, month - 1, day);
-      const converted = gregorianToHijri(this.g);
+      const converted = fromGregorian('islamic-umalqura', this.g);
       if (!converted) {
         throw 'Invalid Date. Original Date object = '+this.g;
       }

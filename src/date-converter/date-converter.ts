@@ -1,25 +1,25 @@
-const gregorianToHijri = (date: Date) : number[] | null => {
+const fromGregorian = (calendarType: CalendarType, date: Date) : number[] | null => { 
   const formatted = new Intl.DateTimeFormat(
-    'en-SA-u-ca-islamic-umalqura',
+    `en-u-ca-${calendarType}`,
     { day: 'numeric', month: 'numeric', year: 'numeric' }
   ).format(date);
 
-  const match = formatted.match(/([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4}) AH/);
+  const match = formatted.match(/([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4}) ([0-9A-Z]{1,4})/);
 
   if(match){
-    const ry = parseInt(match[3]);
-    const rm = parseInt(match[1]);
-    const rd = parseInt(match[2]);
-    return [ry, rm, rd];
+    const y = parseInt(match[3]);
+    const m = parseInt(match[1]);
+    const d = parseInt(match[2]);
+    return [y, m, d];
   }else{
-    console.error(`gregorianToHijri null situation. date=${date} formatted=${formatted}`)
+    console.error(`fromGregorian: Could not parse the converted date for calendarType=${calendarType} date=${date} formatted=${formatted}`)
     return null;
   }
 }
 
 const hijriToGregorianRecursive = (y: number, m: number, d: number, guess: Date, adjustDays: number) : Date | null => {
   guess.setDate(guess.getDate() + adjustDays);
-  const hijriGuess = gregorianToHijri(guess);
+  const hijriGuess = fromGregorian('islamic-umalqura', guess);
 
   if(hijriGuess){
     if(hijriGuess[0] === y && hijriGuess[1] === m && hijriGuess[2] === d){
@@ -37,4 +37,4 @@ const hijriToGregorian = (y: number, m: number, d: number) : Date | null => {
   return hijriToGregorianRecursive(y, m, d, new Date(), 0);
 }
 
-export { gregorianToHijri, hijriToGregorian };
+export { fromGregorian, hijriToGregorian };
