@@ -1,4 +1,4 @@
-const fromGregorian = (calendarType: CalendarType, date: Date) : number[] | null => { 
+const fromGregorian = (calendarType: CalendarType, date: Date) : number[] => { 
   const formatted = new Intl.DateTimeFormat(
     `en-u-ca-${calendarType}`,
     { day: 'numeric', month: 'numeric', year: 'numeric' }
@@ -12,28 +12,23 @@ const fromGregorian = (calendarType: CalendarType, date: Date) : number[] | null
     const d = parseInt(match[2]);
     return [y, m, d];
   }else{
-    console.error(`fromGregorian: Could not parse the converted date for calendarType=${calendarType} date=${date} formatted=${formatted}`)
-    return null;
+    throw `fromGregorian: Could not parse the converted date for calendarType=${calendarType} date=${date} formatted=${formatted}`;
   }
 }
 
-const hijriToGregorianRecursive = (y: number, m: number, d: number, guess: Date, adjustDays: number) : Date | null => {
+const hijriToGregorianRecursive = (y: number, m: number, d: number, guess: Date, adjustDays: number) : Date => {
   guess.setDate(guess.getDate() + adjustDays);
   const hijriGuess = fromGregorian('islamic-umalqura', guess);
 
-  if(hijriGuess){
-    if(hijriGuess[0] === y && hijriGuess[1] === m && hijriGuess[2] === d){
-      return guess; // we found it, stop
-    }else{
-      const approximateDays = ((y*365)+(m*30)+(d))-((hijriGuess[0]*365)+(hijriGuess[1]*30)+(hijriGuess[2]));
-      return hijriToGregorianRecursive(y, m, d, guess, approximateDays);
-    }  
+  if(hijriGuess[0] === y && hijriGuess[1] === m && hijriGuess[2] === d){
+    return guess; // we found it, stop
   }else{
-    return null;
+    const approximateDays = ((y*365)+(m*30)+(d))-((hijriGuess[0]*365)+(hijriGuess[1]*30)+(hijriGuess[2]));
+    return hijriToGregorianRecursive(y, m, d, guess, approximateDays);
   }
 }
 
-const hijriToGregorian = (y: number, m: number, d: number) : Date | null => {
+const hijriToGregorian = (y: number, m: number, d: number) : Date => {
   return hijriToGregorianRecursive(y, m, d, new Date(), 0);
 }
 

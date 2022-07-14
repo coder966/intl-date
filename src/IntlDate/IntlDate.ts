@@ -13,18 +13,10 @@ class IntlDate {
     this.calendarType = calendarType;
     if (calendarType === 'gregorian') {
       this.g = new Date(year, month - 1, day);
-      const converted = fromGregorian('islamic-umalqura', this.g);
-      if (!converted) {
-        throw 'Invalid Date. Original Date object = '+this.g;
-      }
-      this.h = converted;
+      this.h = fromGregorian('islamic-umalqura', this.g);
     } else {
       this.h = [year, month, day];
-      const converted = hijriToGregorian(year, month, day);
-      if (!converted) {
-        throw 'Invalid Date. Original number[] = '+this.h;
-      }
-      this.g = converted;
+      this.g = hijriToGregorian(year, month, day);
     }
   }
 
