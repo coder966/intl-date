@@ -4,18 +4,15 @@ import { fromGregorian, toGregorian } from '../date-converter/date-converter';
  * @author Khalid H. Alharisi
  */
 class IntlDate {
-  calendarType: CalendarType;
   g: Date;
-  h: number[];
+  converted: { [key: string]: number[] } = {};
 
   private constructor(calendarType: CalendarType, year: number, month: number, day: number) {
-    this.calendarType = calendarType;
     if (calendarType === 'gregorian') {
       this.g = new Date(year, month - 1, day);
-      this.h = fromGregorian('islamic-umalqura', this.g);
     } else {
-      this.h = [year, month, day];
-      this.g = toGregorian('islamic-umalqura', year, month, day);
+      this.converted[calendarType] = [year, month, day];
+      this.g = toGregorian(calendarType, year, month, day);
     }
   }
 
@@ -28,11 +25,19 @@ class IntlDate {
     return new IntlDate('gregorian', today.getFullYear(), today.getMonth() + 1, today.getDate());
   };
 
+  private getConverted = (calendarType: CalendarType): number[] => {
+    let converted = this.converted[calendarType];
+    if (!converted) {
+      converted = this.converted[calendarType] = fromGregorian(calendarType, this.g);
+    }
+    return converted;
+  };
+
   getYear = (calendarType: CalendarType): number => {
     if (calendarType === 'gregorian') {
       return this.g.getFullYear();
     } else {
-      return this.h[0];
+      return this.getConverted(calendarType)[0];
     }
   };
 
@@ -40,7 +45,7 @@ class IntlDate {
     if (calendarType === 'gregorian') {
       return this.g.getMonth() + 1;
     } else {
-      return this.h[1];
+      return this.getConverted(calendarType)[1];
     }
   };
 
@@ -48,7 +53,7 @@ class IntlDate {
     if (calendarType === 'gregorian') {
       return this.g.getDate();
     } else {
-      return this.h[2];
+      return this.getConverted(calendarType)[2];
     }
   };
 }
