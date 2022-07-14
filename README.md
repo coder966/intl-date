@@ -69,6 +69,38 @@ const month = date.getMonth('gregorian');
 const day = date.getDay('persian');
 ```
 
+### plusDays
+
+```javascript
+const oldDate = IntlDate.of('gregorian', 1957, 10, 16);
+const newDate = oldDate.plusDays(20);
+
+// old shouldn't be modified
+oldDate.getYear('gregorian'); // 1957
+oldDate.getMonth('gregorian'); // 10
+oldDate.getDay('gregorian'); // 16
+
+newDate.getYear('gregorian'); // 1957
+newDate.getMonth('gregorian'); // 11
+newDate.getDay('gregorian'); // 5
+```
+
+### minusDays
+
+```javascript
+const oldDate = IntlDate.of('gregorian', 1957, 10, 16);
+const newDate = oldDate.minusDays(20);
+
+// old shouldn't be modified
+oldDate.getYear('gregorian'); // 1957
+oldDate.getMonth('gregorian'); // 10
+oldDate.getDay('gregorian'); // 16
+
+newDate.getYear('gregorian'); // 1957
+newDate.getMonth('gregorian'); // 9
+newDate.getDay('gregorian'); // 26
+```
+
 ## License
 
 ```txt

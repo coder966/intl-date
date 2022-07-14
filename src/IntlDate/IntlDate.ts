@@ -75,6 +75,16 @@ class IntlDate {
       return this.getConverted(calendarType)[2];
     }
   };
+
+  plusDays = (days: number): IntlDate => {
+    const tmp = new Date(this.jsDate);
+    tmp.setDate(tmp.getDate() + days);
+    return IntlDate.of('gregorian', tmp.getFullYear(), tmp.getMonth() + 1, tmp.getDate());
+  };
+
+  minusDays = (days: number): IntlDate => {
+    return this.plusDays(days * -1);
+  };
 }
 
 export default IntlDate;
