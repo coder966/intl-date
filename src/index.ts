@@ -1,3 +1,3 @@
-import IntlDate from "./IntlDate/IntlDate";
+import IntlDate from './IntlDate/IntlDate';
 
 export { IntlDate };

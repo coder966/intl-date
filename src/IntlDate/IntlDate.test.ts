@@ -1,13 +1,12 @@
-import IntlDate from "./IntlDate";
+import IntlDate from './IntlDate';
 
 describe('IntlDate', () => {
-
   test('today', () => {
     const jsDate = new Date();
     const intlDate = IntlDate.today();
     expect(intlDate).toBeTruthy();
     expect(intlDate.getYear('gregorian')).toEqual(jsDate.getFullYear());
-    expect(intlDate.getMonth('gregorian')).toEqual(jsDate.getMonth()+1);
+    expect(intlDate.getMonth('gregorian')).toEqual(jsDate.getMonth() + 1);
     expect(intlDate.getDay('gregorian')).toEqual(jsDate.getDate());
   });
 
@@ -33,7 +32,6 @@ describe('IntlDate', () => {
     expect(intlDate.getDay('islamic-umalqura')).toEqual(12);
   });
 
-
   test('islamic-umalqura past date', () => {
     const intlDate = IntlDate.of('islamic-umalqura', 1377, 3, 22);
     expect(intlDate).toBeTruthy();
@@ -55,6 +53,4 @@ describe('IntlDate', () => {
     expect(intlDate.getMonth('islamic-umalqura')).toEqual(1);
     expect(intlDate.getDay('islamic-umalqura')).toEqual(12);
   });
-
-
-})
+});
