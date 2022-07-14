@@ -24,14 +24,17 @@ Javascript library to represent and work with dates in different calendar system
 ```javascript
 const date = IntlDate.of('islamic-umalqura', 1377, 3, 22);
 
+date.toString('gregorian'); // 1957-10-16
 date.getYear('gregorian'); // 1957
 date.getMonth('gregorian'); // 10
 date.getDay('gregorian'); // 16
 
+date.toString('islamic-umalqura'); // 1377-03-22
 date.getYear('islamic-umalqura'); // 1377
 date.getMonth('islamic-umalqura'); // 3
 date.getDay('islamic-umalqura'); // 22
 
+date.toString('persian'); // 1336-07-24
 date.getYear('persian'); // 1336
 date.getMonth('persian'); // 7
 date.getDay('persian'); // 24
@@ -88,14 +91,8 @@ const formattedString = date.toString('gregorian'); // 2022-07-11
 const oldDate = IntlDate.of('gregorian', 1957, 10, 16);
 const newDate = oldDate.plusDays(20);
 
-// old shouldn't be modified
-oldDate.getYear('gregorian'); // 1957
-oldDate.getMonth('gregorian'); // 10
-oldDate.getDay('gregorian'); // 16
-
-newDate.getYear('gregorian'); // 1957
-newDate.getMonth('gregorian'); // 11
-newDate.getDay('gregorian'); // 5
+oldDate.toString('gregorian'); // 1957-10-16
+newDate.toString('gregorian'); // 1957-11-05
 ```
 
 ### minusDays
@@ -104,14 +101,8 @@ newDate.getDay('gregorian'); // 5
 const oldDate = IntlDate.of('gregorian', 1957, 10, 16);
 const newDate = oldDate.minusDays(20);
 
-// old shouldn't be modified
-oldDate.getYear('gregorian'); // 1957
-oldDate.getMonth('gregorian'); // 10
-oldDate.getDay('gregorian'); // 16
-
-newDate.getYear('gregorian'); // 1957
-newDate.getMonth('gregorian'); // 9
-newDate.getDay('gregorian'); // 26
+oldDate.toString('gregorian'); // 1957-10-16
+newDate.toString('gregorian'); // 1957-09-26
 ```
 
 ## License
