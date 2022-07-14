@@ -1,3 +1,5 @@
+const MAX_ITERATIONS = 50;
+
 const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
   const parts = new Intl.DateTimeFormat(`en-u-ca-${calendarType}`, {
     day: 'numeric',
@@ -16,7 +18,12 @@ const toGregorian = (calendarType: CalendarType, y: number, m: number, d: number
   let guess = new Date();
   let convertedGuess = fromGregorian(calendarType, guess);
 
+  let iterations = 0;
   while (convertedGuess[0] !== y || convertedGuess[1] !== m || convertedGuess[2] !== d) {
+    iterations++;
+    if (iterations > MAX_ITERATIONS) {
+      throw `toGregorian: Could not find a conversion within the defined max iterations limit.`;
+    }
     const adjustDays = y * 365 + m * 30 + d - (convertedGuess[0] * 365 + convertedGuess[1] * 30 + convertedGuess[2]);
     guess.setDate(guess.getDate() + adjustDays);
     convertedGuess = fromGregorian(calendarType, guess);
