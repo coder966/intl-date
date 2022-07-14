@@ -1,20 +1,15 @@
 const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
-  const formatted = new Intl.DateTimeFormat(`en-u-ca-${calendarType}`, {
+  const parts = new Intl.DateTimeFormat(`en-u-ca-${calendarType}`, {
     day: 'numeric',
     month: 'numeric',
     year: 'numeric',
-  }).format(date);
+  }).formatToParts(date);
 
-  const match = formatted.match(/([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4}) ([0-9A-Z]{1,4})/);
+  const y = parseInt(parts.find((p) => p.type === 'year')?.value + '');
+  const m = parseInt(parts.find((p) => p.type === 'month')?.value + '');
+  const d = parseInt(parts.find((p) => p.type === 'day')?.value + '');
 
-  if (match) {
-    const y = parseInt(match[3]);
-    const m = parseInt(match[1]);
-    const d = parseInt(match[2]);
-    return [y, m, d];
-  } else {
-    throw `fromGregorian: Could not parse the converted date for calendarType=${calendarType} date=${date} formatted=${formatted}`;
-  }
+  return [y, m, d];
 };
 
 const toGregorian = (calendarType: CalendarType, y: number, m: number, d: number): Date => {
