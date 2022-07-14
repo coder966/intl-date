@@ -1,4 +1,4 @@
-import { gregorianToHijri, hijriToGregorian } from "../hijri/hijri";
+import { gregorianToHijri, hijriToGregorian } from "../date-converter/date-converter";
 
 /**
  * @author Khalid H. Alharisi

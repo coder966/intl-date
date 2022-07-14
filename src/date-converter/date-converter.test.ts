@@ -1,5 +1,5 @@
-import benchmark from "../benchmark.test";
-import { gregorianToHijri, hijriToGregorian } from "./hijri";
+import benchmark from "../benchmark";
+import { gregorianToHijri, hijriToGregorian } from "./date-converter";
 
 describe('hijri', () => {
 
