@@ -1,7 +1,7 @@
 {
   "name": "intl-date",
-  "version": "0.1.0-alpha",
-  "description": "Javascript library to represent and work with dates in different calendar systems (e.g. `hijri`, `persian` and others).",
+  "version": "0.1.0",
+  "description": "Javascript library to represent and work with dates in different calendar systems (e.g. hijri, persian and others).",
   "keywords": [
     "date",
     "Hijri",
