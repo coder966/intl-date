@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start": "microbundle watch",
-    "build": "microbundle",
+    "build": "rimraf dist && microbundle",
     "prepare": "npm run build",
     "test": "jest"
   },
