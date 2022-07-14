@@ -58,6 +58,11 @@ describe('IntlDate', () => {
     expect(newDate.getDay('gregorian')).toEqual(5);
   });
 
+  test('getDayOfWeek', () => {
+    const intlDate = IntlDate.of('gregorian', 1957, 10, 16);
+    expect(intlDate.getDayOfWeek()).toEqual(4);
+  });
+
   test('minus days', () => {
     const oldDate = IntlDate.of('gregorian', 1957, 10, 16);
     const newDate = oldDate.minusDays(20);

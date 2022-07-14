@@ -69,6 +69,12 @@ const month = date.getMonth('gregorian');
 const day = date.getDay('persian');
 ```
 
+### getDayOfWeek
+
+```javascript
+const dayOfWeek = date.getDayOfWeek();
+```
+
 ### plusDays
 
 ```javascript

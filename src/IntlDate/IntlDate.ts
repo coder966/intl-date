@@ -76,6 +76,14 @@ class IntlDate {
     }
   };
 
+  /**
+   * Index of the day of the week (starting from 1)
+   * @returns Index of the day of the week (starting from 1)
+   */
+  getDayOfWeek = (): number => {
+    return this.jsDate.getDay() + 1;
+  };
+
   plusDays = (days: number): IntlDate => {
     const tmp = new Date(this.jsDate);
     tmp.setDate(tmp.getDate() + days);
