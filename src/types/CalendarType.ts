@@ -6,3 +6,5 @@ type CalendarType =
   | 'islamic-civil'
   | 'islamic-tbla'
   | 'persian';
+
+export default CalendarType;
