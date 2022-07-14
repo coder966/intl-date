@@ -4,15 +4,15 @@ import { fromGregorian, toGregorian } from '../date-converter/date-converter';
  * @author Khalid H. Alharisi
  */
 class IntlDate {
-  g: Date;
+  jsDate: Date;
   converted: { [key: string]: number[] } = {};
 
   private constructor(calendarType: CalendarType, year: number, month: number, day: number) {
     if (calendarType === 'gregorian') {
-      this.g = new Date(year, month - 1, day);
+      this.jsDate = new Date(year, month - 1, day);
     } else {
       this.converted[calendarType] = [year, month, day];
-      this.g = toGregorian(calendarType, year, month, day);
+      this.jsDate = toGregorian(calendarType, year, month, day);
     }
   }
 
@@ -28,14 +28,14 @@ class IntlDate {
   private getConverted = (calendarType: CalendarType): number[] => {
     let converted = this.converted[calendarType];
     if (!converted) {
-      converted = this.converted[calendarType] = fromGregorian(calendarType, this.g);
+      converted = this.converted[calendarType] = fromGregorian(calendarType, this.jsDate);
     }
     return converted;
   };
 
   getYear = (calendarType: CalendarType): number => {
     if (calendarType === 'gregorian') {
-      return this.g.getFullYear();
+      return this.jsDate.getFullYear();
     } else {
       return this.getConverted(calendarType)[0];
     }
@@ -43,7 +43,7 @@ class IntlDate {
 
   getMonth = (calendarType: CalendarType): number => {
     if (calendarType === 'gregorian') {
-      return this.g.getMonth() + 1;
+      return this.jsDate.getMonth() + 1;
     } else {
       return this.getConverted(calendarType)[1];
     }
@@ -51,7 +51,7 @@ class IntlDate {
 
   getDay = (calendarType: CalendarType): number => {
     if (calendarType === 'gregorian') {
-      return this.g.getDate();
+      return this.jsDate.getDate();
     } else {
       return this.getConverted(calendarType)[2];
     }
