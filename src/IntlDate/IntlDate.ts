@@ -21,6 +21,10 @@ class IntlDate {
     return new IntlDate(calendarType, year, month, day);
   };
 
+  static from = (jsDate: Date): IntlDate => {
+    return new IntlDate('gregorian', jsDate.getFullYear(), jsDate.getMonth() + 1, jsDate.getDate());
+  };
+
   static today = (): IntlDate => {
     const today = new Date();
     return new IntlDate('gregorian', today.getFullYear(), today.getMonth() + 1, today.getDate());

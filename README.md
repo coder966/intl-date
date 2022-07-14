@@ -48,6 +48,13 @@ date.getDay('persian'); // 24
 const date = IntlDate.of('islamic-umalqura', 1377, 3, 22);
 ```
 
+### from
+
+```javascript
+const jsDate = new Date(2017, 11, 25);
+const intlDate = IntlDate.from(jsDate);
+```
+
 ### today
 
 ```javascript
