@@ -1,5 +1,8 @@
 const MAX_ITERATIONS = 50;
 
+/**
+ * @author Khalid H. Alharisi
+ */
 const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
   const parts = new Intl.DateTimeFormat(`en-u-ca-${calendarType}`, {
     day: 'numeric',
@@ -14,6 +17,9 @@ const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
   return [y, m, d];
 };
 
+/**
+ * @author Khalid H. Alharisi
+ */
 const toGregorian = (calendarType: CalendarType, y: number, m: number, d: number): Date => {
   let guess = new Date();
   let convertedGuess = fromGregorian(calendarType, guess);
