@@ -27,8 +27,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "microbundle watch",
-    "build": "rimraf dist && microbundle",
+    "build": "rimraf dist && microbundle --format esm,cjs",
     "prepare": "npm run build",
     "test": "jest"
   },
