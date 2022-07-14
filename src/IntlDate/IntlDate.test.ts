@@ -43,6 +43,11 @@ describe('IntlDate', () => {
     expect(intlDate.getDay('persian')).toEqual(24);
   });
 
+  test('getDayOfWeek', () => {
+    const intlDate = IntlDate.of('gregorian', 1957, 10, 16);
+    expect(intlDate.getDayOfWeek()).toEqual(4);
+  });
+
   test('plus days', () => {
     const oldDate = IntlDate.of('gregorian', 1957, 10, 16);
     const newDate = oldDate.plusDays(20);
@@ -56,11 +61,6 @@ describe('IntlDate', () => {
     expect(newDate.getYear('gregorian')).toEqual(1957);
     expect(newDate.getMonth('gregorian')).toEqual(11);
     expect(newDate.getDay('gregorian')).toEqual(5);
-  });
-
-  test('getDayOfWeek', () => {
-    const intlDate = IntlDate.of('gregorian', 1957, 10, 16);
-    expect(intlDate.getDayOfWeek()).toEqual(4);
   });
 
   test('minus days', () => {
