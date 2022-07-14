@@ -7,7 +7,7 @@ Javascript library to represent and work with dates in different calendar system
 - Simple and type-safe API
 - Immutable objects
 - Supports 7 calendar systems
-- Zero dependencies. Uses the native `Intl.DateTimeFormat` under the hood.
+- Zero dependencies. Leverages `Intl.DateTimeFormat`.
 
 ## Supported Calendars
 
@@ -18,6 +18,12 @@ Javascript library to represent and work with dates in different calendar system
 - islamic-civil
 - islamic-tbla
 - persian
+
+## Installation
+
+```shell
+$ npm install intl-date
+```
 
 ## Example
 
