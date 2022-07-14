@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.1] - 2022-07-14
+
+- Export CalendarType
+
 ## [0.2.0] - 2022-07-14
 
 - IntlDate: added from
