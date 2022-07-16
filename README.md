@@ -101,6 +101,12 @@ const day = date.getDay('persian');
 const dayOfWeek = date.getDayOfWeek();
 ```
 
+#### getQuarter
+
+```javascript
+const quarter = date.getQuarter('gregorian');
+```
+
 ### Manipulative operations (produces new immutable IntlDate objects)
 
 #### plusDays
@@ -125,11 +131,18 @@ newDate.toString('gregorian'); // 1957-09-26
 
 ### String operations
 
+#### format
+
+```javascript
+const date = IntlDate.of('gregorian', 2022, 7, 11);
+const formattedString = date.format('gregorian', 'yyyy-MM-dd'); // 2022-07-11
+```
+
 #### toString
 
 ```javascript
 const date = IntlDate.of('gregorian', 2022, 7, 11);
-const formattedString = date.toString('gregorian'); // 2022-07-11
+const string = date.toString('gregorian'); // 2022-07-11
 ```
 
 ## License
