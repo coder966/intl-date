@@ -164,6 +164,30 @@ const date3 = IntlDate.of('gregorian', 1957, 10, 25);
 const result = date2.isBetween(date1, date3); // true
 ```
 
+#### daysUntil
+
+```javascript
+const date1 = IntlDate.of('gregorian', 1957, 10, 16);
+const date2 = IntlDate.of('gregorian', 1957, 11, 20);
+const days = date1.daysUntil(date2); // 35
+```
+
+#### min
+
+```javascript
+const date1 = IntlDate.of('gregorian', 1957, 10, 16);
+const date2 = IntlDate.of('gregorian', 1957, 10, 20);
+const min = IntlDate.min(date1, date2); // date1
+```
+
+#### max
+
+```javascript
+const date1 = IntlDate.of('gregorian', 1957, 10, 16);
+const date2 = IntlDate.of('gregorian', 1957, 10, 20);
+const max = IntlDate.max(date1, date2); // date2
+```
+
 ### String operations
 
 #### format
