@@ -24,6 +24,13 @@ const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
  */
 const toGregorian = (calendarType: CalendarType, y: number, m: number, d: number): Date => {
   let guess = new Date();
+
+  // wipe out time information
+  guess.setHours(0);
+  guess.setMinutes(0);
+  guess.setSeconds(0);
+  guess.setMilliseconds(0);
+
   let convertedGuess = fromGregorian(calendarType, guess);
 
   let iterations = 0;
