@@ -142,6 +142,14 @@ class IntlDate {
     return (this._int > start._int && this._int < end._int) || (this._int > end._int && this._int < start._int);
   };
 
+  static min = (date1: IntlDate, date2: IntlDate): IntlDate => {
+    return date1.isBefore(date2) ? date1 : date2;
+  };
+
+  static max = (date1: IntlDate, date2: IntlDate): IntlDate => {
+    return date1.isAfter(date2) ? date1 : date2;
+  };
+
   plusDays = (days: number): IntlDate => {
     const tmp = new Date(this.jsDate);
     tmp.setDate(tmp.getDate() + days);
