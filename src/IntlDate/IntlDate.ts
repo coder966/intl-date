@@ -5,8 +5,9 @@ import CalendarType from '../types/CalendarType';
  * @author Khalid H. Alharisi
  */
 class IntlDate {
-  jsDate: Date;
-  converted: { [key: string]: number[] } = {};
+  private jsDate: Date;
+  private converted: { [key: string]: number[] } = {};
+  public _int: number;
 
   private constructor(calendarType: CalendarType, year: number, month: number, day: number) {
     this.validateSupportedCalendarType(calendarType);
@@ -16,6 +17,7 @@ class IntlDate {
       this.converted[calendarType] = [year, month, day];
       this.jsDate = toGregorian(calendarType, year, month, day);
     }
+    this._int = this.jsDate.getTime();
   }
 
   static of = (calendarType: CalendarType, year: number, month: number, day: number): IntlDate => {
