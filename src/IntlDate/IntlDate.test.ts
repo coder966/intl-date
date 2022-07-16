@@ -67,6 +67,44 @@ describe('IntlDate', () => {
     expect(intlDate.getDayOfWeek()).toEqual(4);
   });
 
+  test('getQuarter', () => {
+    const jan = IntlDate.of('gregorian', 2022, 1, 1);
+    expect(jan.getQuarter('gregorian')).toEqual(1);
+
+    const feb = IntlDate.of('gregorian', 2022, 2, 1);
+    expect(feb.getQuarter('gregorian')).toEqual(1);
+
+    const mar = IntlDate.of('gregorian', 2022, 3, 1);
+    expect(mar.getQuarter('gregorian')).toEqual(1);
+
+    const apr = IntlDate.of('gregorian', 2022, 4, 1);
+    expect(apr.getQuarter('gregorian')).toEqual(2);
+
+    const may = IntlDate.of('gregorian', 2022, 5, 1);
+    expect(may.getQuarter('gregorian')).toEqual(2);
+
+    const jun = IntlDate.of('gregorian', 2022, 6, 1);
+    expect(jun.getQuarter('gregorian')).toEqual(2);
+
+    const jul = IntlDate.of('gregorian', 2022, 7, 1);
+    expect(jul.getQuarter('gregorian')).toEqual(3);
+
+    const aug = IntlDate.of('gregorian', 2022, 8, 1);
+    expect(aug.getQuarter('gregorian')).toEqual(3);
+
+    const sep = IntlDate.of('gregorian', 2022, 9, 1);
+    expect(sep.getQuarter('gregorian')).toEqual(3);
+
+    const oct = IntlDate.of('gregorian', 2022, 10, 1);
+    expect(oct.getQuarter('gregorian')).toEqual(4);
+
+    const nov = IntlDate.of('gregorian', 2022, 11, 1);
+    expect(nov.getQuarter('gregorian')).toEqual(4);
+
+    const dec = IntlDate.of('gregorian', 2022, 12, 1);
+    expect(dec.getQuarter('gregorian')).toEqual(4);
+  });
+
   test('plus days', () => {
     const oldDate = IntlDate.of('gregorian', 1957, 10, 16);
     const newDate = oldDate.plusDays(20);

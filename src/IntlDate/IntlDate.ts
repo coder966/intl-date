@@ -115,6 +115,15 @@ class IntlDate {
     return this.jsDate.getDay() + 1;
   };
 
+  /**
+   * Index of the quarter of the year (starting from 1)
+   * @returns Index of the quarter of the year (starting from 1)
+   */
+  getQuarter = (calendarType: CalendarType): number => {
+    const month = this.getMonth(calendarType);
+    return Math.floor((month - 1) / 3) + 1;
+  };
+
   plusDays = (days: number): IntlDate => {
     const tmp = new Date(this.jsDate);
     tmp.setDate(tmp.getDate() + days);
