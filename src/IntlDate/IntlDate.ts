@@ -142,6 +142,11 @@ class IntlDate {
     return (this._int > start._int && this._int < end._int) || (this._int > end._int && this._int < start._int);
   };
 
+  daysUntil = (other: IntlDate): number => {
+    const MS_PER_DAY = 1000 * 60 * 60 * 24;
+    return Math.ceil((other._int - this._int) / MS_PER_DAY);
+  };
+
   static min = (date1: IntlDate, date2: IntlDate): IntlDate => {
     return date1.isBefore(date2) ? date1 : date2;
   };

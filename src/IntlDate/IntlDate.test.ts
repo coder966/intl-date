@@ -162,6 +162,15 @@ describe('IntlDate', () => {
     expect(date5.isBetween(date4, date6)).toEqual(false);
   });
 
+  test('daysUntil', () => {
+    const date1 = IntlDate.of('gregorian', 1957, 10, 16);
+    const date2 = IntlDate.of('gregorian', 1957, 11, 20);
+
+    expect(date1.daysUntil(date1)).toEqual(0);
+    expect(date1.daysUntil(date2)).toEqual(35);
+    expect(date2.daysUntil(date1)).toEqual(-35);
+  });
+
   test('min', () => {
     const date1 = IntlDate.of('gregorian', 1957, 10, 16);
     const date2 = IntlDate.of('gregorian', 1957, 10, 20);
