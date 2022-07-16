@@ -165,6 +165,36 @@ class IntlDate {
     return this.plusDays(days * -1);
   };
 
+  /**
+   * Returns the date in the specified calendar formatted according to provided format string.
+   *
+   * Supports the following tokens:
+   * - yyyy: four digit year
+   * - yy: two digit year
+   * - y: year without padding
+   * - MM: month padded to 2 digits
+   * - M: month without padding
+   * - dd: day padded to 2 digits
+   * - d: day without padding
+   *
+   */
+  format = (calendarType: CalendarType, pattern: string): string => {
+    this.validateSupportedCalendarType(calendarType);
+
+    const year = this.getYear(calendarType).toString();
+    const month = this.getMonth(calendarType).toString();
+    const day = this.getDay(calendarType).toString();
+
+    return pattern
+      .replace(/yyyy/g, year.padStart(4, '0'))
+      .replace(/yy/g, year.slice(-2).padStart(2, '0'))
+      .replace(/y/g, year)
+      .replace(/MM/g, month.padStart(2, '0'))
+      .replace(/M/g, month)
+      .replace(/dd/g, day.padStart(2, '0'))
+      .replace(/d/g, day);
+  };
+
   toString = (calendarType: CalendarType): string => {
     this.validateSupportedCalendarType(calendarType);
     const y = this.getYear(calendarType);
