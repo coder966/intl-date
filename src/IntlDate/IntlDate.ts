@@ -195,12 +195,12 @@ class IntlDate {
       .replace(/d/g, day);
   };
 
+  /**
+   * Same as calling format(calendarType, 'yyyy-MM-dd')
+   */
   toString = (calendarType: CalendarType): string => {
     this.validateSupportedCalendarType(calendarType);
-    const y = this.getYear(calendarType);
-    const m = this.getMonth(calendarType);
-    const d = this.getDay(calendarType);
-    return `${y}-${m > 9 ? m : '0' + m}-${d > 9 ? d : '0' + d}`;
+    return this.format(calendarType, 'yyyy-MM-dd');
   };
 }
 
