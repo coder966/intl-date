@@ -7,6 +7,7 @@ Javascript library to represent and work with dates in different calendar system
 - Simple and type-safe API
 - Immutable objects
 - Supports 7 calendar systems
+- Tiny: 1kB (minified + gzipped)
 - Zero dependencies. Leverages `Intl.DateTimeFormat`.
 
 ## Supported Calendars
