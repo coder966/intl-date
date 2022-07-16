@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.0] - 2022-07-16
+
+Added methods to IntlDate:
+
+- getQuarter
+- isEqual
+- isBefore
+- isAfter
+- isBetween
+- daysUntil
+- min
+- max
+- format
+
 ## [0.2.1] - 2022-07-14
 
 - Export CalendarType
