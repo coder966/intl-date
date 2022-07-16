@@ -23,7 +23,7 @@ class IntlDate {
   };
 
   static from = (jsDate: Date): IntlDate => {
-    return new IntlDate('gregorian', jsDate.getFullYear(), jsDate.getMonth() + 1, jsDate.getDate());
+    return IntlDate.of('gregorian', jsDate.getFullYear(), jsDate.getMonth() + 1, jsDate.getDate());
   };
 
   /**
@@ -50,12 +50,11 @@ class IntlDate {
     const month = parseInt(parts[1]);
     const day = parseInt(parts[2]);
 
-    return new IntlDate(calendarType, year, month, day);
+    return IntlDate.of(calendarType, year, month, day);
   };
 
   static today = (): IntlDate => {
-    const today = new Date();
-    return new IntlDate('gregorian', today.getFullYear(), today.getMonth() + 1, today.getDate());
+    return IntlDate.from(new Date());
   };
 
   private validateSupportedCalendarType = (calendarType: string): void => {
