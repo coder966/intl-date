@@ -126,6 +126,22 @@ class IntlDate {
     return Math.floor((month - 1) / 3) + 1;
   };
 
+  isEqual = (other: IntlDate): boolean => {
+    return this._int === other._int;
+  };
+
+  isBefore = (other: IntlDate): boolean => {
+    return this._int < other._int;
+  };
+
+  isAfter = (other: IntlDate): boolean => {
+    return this._int > other._int;
+  };
+
+  isBetween = (start: IntlDate, end: IntlDate): boolean => {
+    return (this._int > start._int && this._int < end._int) || (this._int > end._int && this._int < start._int);
+  };
+
   plusDays = (days: number): IntlDate => {
     const tmp = new Date(this.jsDate);
     tmp.setDate(tmp.getDate() + days);

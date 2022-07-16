@@ -120,6 +120,48 @@ describe('IntlDate', () => {
     expect(newDate.getDay('gregorian')).toEqual(5);
   });
 
+  test('isEqual', () => {
+    const date1 = IntlDate.of('gregorian', 1957, 10, 16);
+    const date2 = IntlDate.of('islamic-umalqura', 1377, 3, 22);
+    expect(date1.isEqual(date2)).toEqual(true);
+
+    const date3 = IntlDate.of('gregorian', 1957, 10, 16);
+    const date4 = IntlDate.of('islamic-umalqura', 1377, 3, 23);
+    expect(date3.isEqual(date4)).toEqual(false);
+  });
+
+  test('isBefore', () => {
+    const date1 = IntlDate.of('gregorian', 1957, 10, 15);
+    const date2 = IntlDate.of('islamic-umalqura', 1377, 3, 22);
+    expect(date1.isBefore(date2)).toEqual(true);
+
+    const date3 = IntlDate.of('gregorian', 1957, 10, 17);
+    const date4 = IntlDate.of('islamic-umalqura', 1377, 3, 22);
+    expect(date3.isBefore(date4)).toEqual(false);
+  });
+
+  test('isAfter', () => {
+    const date1 = IntlDate.of('gregorian', 1957, 10, 17);
+    const date2 = IntlDate.of('islamic-umalqura', 1377, 3, 22);
+    expect(date1.isAfter(date2)).toEqual(true);
+
+    const date3 = IntlDate.of('gregorian', 1957, 10, 15);
+    const date4 = IntlDate.of('islamic-umalqura', 1377, 3, 22);
+    expect(date3.isAfter(date4)).toEqual(false);
+  });
+
+  test('isBetween', () => {
+    const date1 = IntlDate.of('gregorian', 1957, 10, 16);
+    const date2 = IntlDate.of('gregorian', 1957, 10, 20);
+    const date3 = IntlDate.of('gregorian', 1957, 10, 25);
+    expect(date2.isBetween(date1, date3)).toEqual(true);
+
+    const date4 = IntlDate.of('gregorian', 1957, 10, 16);
+    const date5 = IntlDate.of('gregorian', 1957, 11, 20);
+    const date6 = IntlDate.of('gregorian', 1957, 10, 25);
+    expect(date5.isBetween(date4, date6)).toEqual(false);
+  });
+
   test('minus days', () => {
     const oldDate = IntlDate.of('gregorian', 1957, 10, 16);
     const newDate = oldDate.minusDays(20);
