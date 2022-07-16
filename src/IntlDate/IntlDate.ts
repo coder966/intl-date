@@ -122,6 +122,7 @@ class IntlDate {
    * @returns Index of the quarter of the year (starting from 1)
    */
   getQuarter = (calendarType: CalendarType): number => {
+    this.validateSupportedCalendarType(calendarType);
     const month = this.getMonth(calendarType);
     return Math.floor((month - 1) / 3) + 1;
   };
