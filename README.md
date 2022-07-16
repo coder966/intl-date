@@ -129,6 +129,41 @@ oldDate.toString('gregorian'); // 1957-10-16
 newDate.toString('gregorian'); // 1957-09-26
 ```
 
+### Comparing IntlDate objects
+
+#### isEqual
+
+```javascript
+const date1 = IntlDate.of('gregorian', 1957, 10, 16);
+const date2 = IntlDate.of('islamic-umalqura', 1377, 3, 22);
+const result = date1.isEqual(date2); // true
+```
+
+#### isBefore
+
+```javascript
+const date1 = IntlDate.of('gregorian', 1957, 10, 15);
+const date2 = IntlDate.of('islamic-umalqura', 1377, 3, 22);
+const result = date1.isBefore(date2); // true
+```
+
+#### isAfter
+
+```javascript
+const date1 = IntlDate.of('gregorian', 1957, 10, 17);
+const date2 = IntlDate.of('islamic-umalqura', 1377, 3, 22);
+const result = date1.isAfter(date2); // true
+```
+
+#### isBetween
+
+```javascript
+const date1 = IntlDate.of('gregorian', 1957, 10, 16);
+const date2 = IntlDate.of('gregorian', 1957, 10, 20);
+const date3 = IntlDate.of('gregorian', 1957, 10, 25);
+const result = date2.isBetween(date1, date3); // true
+```
+
 ### String operations
 
 #### format
