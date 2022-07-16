@@ -48,63 +48,62 @@ date.getDay('persian'); // 24
 
 ## API
 
-### of
+### Different ways to create IntlDate objects
+
+#### of - Create IntlDate from a year, month, and day
 
 ```javascript
 const date = IntlDate.of('islamic-umalqura', 1377, 3, 22);
 ```
 
-### from
+#### from - Create IntlDate from a Javascript Date object
 
 ```javascript
 const jsDate = new Date(2017, 11, 25);
 const intlDate = IntlDate.from(jsDate);
 ```
 
-### parse
+#### parse - Create IntlDate from a string
 
 ```javascript
 const date = IntlDate.parse('gregorian', '1957-05-16');
 ```
 
-### today
+#### today - Create IntlDate for today's date
 
 ```javascript
 const date = IntlDate.today();
 ```
 
-### getYear
+### Getters
+
+#### getYear
 
 ```javascript
 const year = date.getYear('islamic-umalqura');
 ```
 
-### getMonth
+#### getMonth
 
 ```javascript
 const month = date.getMonth('gregorian');
 ```
 
-### getDay
+#### getDay
 
 ```javascript
 const day = date.getDay('persian');
 ```
 
-### getDayOfWeek
+#### getDayOfWeek
 
 ```javascript
 const dayOfWeek = date.getDayOfWeek();
 ```
 
-### toString
+### Manipulative operations (produces new immutable IntlDate objects)
 
-```javascript
-const date = IntlDate.of('gregorian', 2022, 7, 11);
-const formattedString = date.toString('gregorian'); // 2022-07-11
-```
-
-### plusDays
+#### plusDays
 
 ```javascript
 const oldDate = IntlDate.of('gregorian', 1957, 10, 16);
@@ -114,7 +113,7 @@ oldDate.toString('gregorian'); // 1957-10-16
 newDate.toString('gregorian'); // 1957-11-05
 ```
 
-### minusDays
+#### minusDays
 
 ```javascript
 const oldDate = IntlDate.of('gregorian', 1957, 10, 16);
@@ -122,6 +121,15 @@ const newDate = oldDate.minusDays(20);
 
 oldDate.toString('gregorian'); // 1957-10-16
 newDate.toString('gregorian'); // 1957-09-26
+```
+
+### String operations
+
+#### toString
+
+```javascript
+const date = IntlDate.of('gregorian', 2022, 7, 11);
+const formattedString = date.toString('gregorian'); // 2022-07-11
 ```
 
 ## License
