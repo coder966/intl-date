@@ -16,6 +16,17 @@
 
 import { describe, test, expect } from '@jest/globals';
 import IntlDate from './IntlDate';
+import type CalendarType from '../types/CalendarType';
+
+const supportedCalendarTypes: CalendarType[] = [
+  'gregorian',
+  'islamic',
+  'islamic-umalqura',
+  'islamic-rgsa',
+  'islamic-civil',
+  'islamic-tbla',
+  'persian',
+];
 
 describe('IntlDate', () => {
   test('today', () => {
@@ -79,6 +90,41 @@ describe('IntlDate', () => {
     expect(intlDate.getDay('persian')).toEqual(24);
   });
 
+  test('round-trips a date through every supported calendar', () => {
+    const original = IntlDate.of('gregorian', 2024, 2, 29);
+
+    for (const calendarType of supportedCalendarTypes) {
+      const year = original.getYear(calendarType);
+      const month = original.getMonth(calendarType);
+      const day = original.getDay(calendarType);
+      const roundTripped = IntlDate.of(calendarType, year, month, day);
+
+      expect(roundTripped.isEqual(original)).toBe(true);
+    }
+  });
+
+  test('parses slash-separated and zero-padded dates', () => {
+    expect(IntlDate.parse('gregorian', '2024/02/29').toString('gregorian')).toBe('2024-02-29');
+    expect(IntlDate.parse('gregorian', '2024-2-29').toString('gregorian')).toBe('2024-02-29');
+  });
+
+  test.each(['', '2024-02', '2024.02.29', '2024-02-29-extra', '2024-02-xx'])('rejects invalid date string: %s', (date) => {
+    expect(() => IntlDate.parse('gregorian', date)).toThrow();
+  });
+
+  test('rejects unsupported calendar types', () => {
+    expect(() => IntlDate.of('unsupported' as CalendarType, 2024, 2, 29)).toThrow();
+  });
+
+  test('rejects invalid Gregorian dates instead of normalizing them', () => {
+    expect(() => IntlDate.of('gregorian', 2024, 2, 30)).toThrow();
+    expect(() => IntlDate.of('gregorian', 2024, 13, 1)).toThrow();
+  });
+
+  test('rejects invalid JavaScript Date values', () => {
+    expect(() => IntlDate.from(new Date(Number.NaN))).toThrow();
+  });
+
   test('getDayOfWeek', () => {
     const intlDate = IntlDate.of('gregorian', 1957, 10, 16);
     expect(intlDate.getDayOfWeek()).toEqual(4);
@@ -120,6 +166,15 @@ describe('IntlDate', () => {
 
     const dec = IntlDate.of('gregorian', 2022, 12, 1);
     expect(dec.getQuarter('gregorian')).toEqual(4);
+  });
+
+  test('handles leap-day and year boundaries', () => {
+    const leapDay = IntlDate.of('gregorian', 2024, 2, 29);
+    expect(leapDay.minusDays(1).toString('gregorian')).toBe('2024-02-28');
+    expect(leapDay.plusDays(1).toString('gregorian')).toBe('2024-03-01');
+
+    const yearEnd = IntlDate.of('gregorian', 2023, 12, 31);
+    expect(yearEnd.plusDays(1).toString('gregorian')).toBe('2024-01-01');
   });
 
   test('plus days', () => {
@@ -179,6 +234,16 @@ describe('IntlDate', () => {
     expect(date5.isBetween(date4, date6)).toEqual(false);
   });
 
+  test('isBetween excludes boundaries and accepts reversed bounds', () => {
+    const start = IntlDate.of('gregorian', 2024, 1, 10);
+    const middle = IntlDate.of('gregorian', 2024, 1, 15);
+    const end = IntlDate.of('gregorian', 2024, 1, 20);
+
+    expect(start.isBetween(start, end)).toBe(false);
+    expect(end.isBetween(start, end)).toBe(false);
+    expect(middle.isBetween(end, start)).toBe(true);
+  });
+
   test('daysUntil', () => {
     const date1 = IntlDate.of('gregorian', 1957, 10, 16);
     const date2 = IntlDate.of('gregorian', 1957, 11, 20);
@@ -218,6 +283,11 @@ describe('IntlDate', () => {
   test('format', () => {
     const intlDate = IntlDate.of('gregorian', 2022, 7, 11);
     expect(intlDate.format('gregorian', 'yyyy-MM/dd')).toEqual('2022-07/11');
+  });
+
+  test('formats padded and unpadded date tokens', () => {
+    const intlDate = IntlDate.of('gregorian', 2024, 2, 3);
+    expect(intlDate.format('gregorian', 'yyyy yy y MM M dd d')).toBe('2024 24 2024 02 2 03 3');
   });
 
   test('toString', () => {

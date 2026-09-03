@@ -17,6 +17,17 @@
 import { describe, test, expect } from '@jest/globals';
 import benchmark from '../benchmark';
 import { fromGregorian, toGregorian } from './date-converter';
+import type CalendarType from '../types/CalendarType';
+
+const supportedCalendarTypes: CalendarType[] = [
+  'gregorian',
+  'islamic',
+  'islamic-umalqura',
+  'islamic-rgsa',
+  'islamic-civil',
+  'islamic-tbla',
+  'persian',
+];
 
 describe('date-converter', () => {
   test('fromGregorian: past date', () => {
@@ -45,6 +56,32 @@ describe('date-converter', () => {
     expect(output.getFullYear()).toEqual(2060);
     expect(output.getMonth() + 1).toEqual(6);
     expect(output.getDate()).toEqual(11);
+  });
+
+  test('round-trips boundary dates for every supported calendar', () => {
+    const dates = [
+      new Date(1999, 11, 31),
+      new Date(2000, 1, 29),
+      new Date(2024, 1, 29),
+      new Date(2099, 11, 31),
+    ];
+
+    for (const calendarType of supportedCalendarTypes) {
+      for (const input of dates) {
+        const [year, month, day] = fromGregorian(calendarType, input);
+        const output = toGregorian(calendarType, year, month, day);
+
+        expect([output.getFullYear(), output.getMonth() + 1, output.getDate()]).toEqual([
+          input.getFullYear(),
+          input.getMonth() + 1,
+          input.getDate(),
+        ]);
+      }
+    }
+  });
+
+  test('rejects unsupported calendar types', () => {
+    expect(() => fromGregorian('unsupported' as CalendarType, new Date(2024, 1, 29))).toThrow();
   });
 
   test('perf: fromGregorian throughput', () => {

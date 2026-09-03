@@ -27,8 +27,17 @@ class IntlDate {
 
   private constructor(calendarType: CalendarType, year: number, month: number, day: number) {
     this.validateSupportedCalendarType(calendarType);
+    this.validateDateParts(year, month, day);
     if (calendarType === 'gregorian') {
-      this.jsDate = new Date(year, month - 1, day);
+      const jsDate = new Date(0);
+      jsDate.setHours(0, 0, 0, 0);
+      jsDate.setFullYear(year, month - 1, day);
+
+      if (jsDate.getFullYear() !== year || jsDate.getMonth() !== month - 1 || jsDate.getDate() !== day) {
+        throw new Error(`Invalid date ${year}-${month}-${day}`);
+      }
+
+      this.jsDate = jsDate;
     } else {
       this.converted[calendarType] = [year, month, day];
       this.jsDate = toGregorian(calendarType, year, month, day);
@@ -41,6 +50,10 @@ class IntlDate {
   };
 
   static from = (jsDate: Date): IntlDate => {
+    if (Number.isNaN(jsDate.getTime())) {
+      throw new Error('Invalid JavaScript Date');
+    }
+
     return IntlDate.of('gregorian', jsDate.getFullYear(), jsDate.getMonth() + 1, jsDate.getDate());
   };
 
@@ -55,18 +68,14 @@ class IntlDate {
       throw `Invalid date string ${date}`;
     }
 
-    // extract date parts
-    let parts = date.split('-');
-    if (parts.length === 1) {
-      parts = date.split('/');
-    }
-    if (parts.length != 3) {
+    const parts = /^(\d+)([-/])(\d+)\2(\d+)$/.exec(date);
+    if (!parts) {
       throw `Invalid date string ${date}`;
     }
 
-    const year = parseInt(parts[0]);
-    const month = parseInt(parts[1]);
-    const day = parseInt(parts[2]);
+    const year = parseInt(parts[1], 10);
+    const month = parseInt(parts[3], 10);
+    const day = parseInt(parts[4], 10);
 
     return IntlDate.of(calendarType, year, month, day);
   };
@@ -87,6 +96,12 @@ class IntlDate {
         return;
       default:
         throw `Unsupported calendar type ${calendarType}`;
+    }
+  };
+
+  private validateDateParts = (year: number, month: number, day: number): void => {
+    if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) {
+      throw new Error(`Invalid date ${year}-${month}-${day}`);
     }
   };
 

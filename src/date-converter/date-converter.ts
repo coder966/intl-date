@@ -22,7 +22,8 @@ const MAX_ITERATIONS = 50;
  * @author Khalid H. Alharisi
  */
 const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
-  const parts = new Intl.DateTimeFormat(`en-u-ca-${calendarType}`, {
+  const intlCalendarType = calendarType === 'gregorian' ? 'gregory' : calendarType;
+  const parts = new Intl.DateTimeFormat(`en-u-ca-${intlCalendarType}`, {
     day: 'numeric',
     month: 'numeric',
     year: 'numeric',
