@@ -17,9 +17,17 @@
     "url": "https://github.com/coder966/intl-date"
   },
   "private": false,
+  "type": "module",
   "source": "src/index.ts",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -27,7 +35,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "rimraf dist && microbundle --format esm,cjs",
+    "build": "vite build && tsc --project tsconfig.build.json",
     "prepare": "npm run build",
     "test": "jest"
   },
@@ -35,8 +43,9 @@
     "@jest/globals": "^30.5.1",
     "@types/node": "^22.20.1",
     "jest": "^30.5.1",
-    "microbundle": "^0.15.1",
-    "rimraf": "^6.1.3",
-    "ts-jest": "^29.4.12"
+    "ts-jest": "^29.4.12",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.2"
   }
 }

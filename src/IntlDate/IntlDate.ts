@@ -15,7 +15,7 @@
  */
 
 import { fromGregorian, toGregorian } from '../date-converter/date-converter';
-import CalendarType from '../types/CalendarType';
+import type CalendarType from '../types/CalendarType';
 
 /**
  * @author Khalid H. Alharisi

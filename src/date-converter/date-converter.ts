@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import CalendarType from '../types/CalendarType';
+import type CalendarType from '../types/CalendarType';
 
 const MAX_ITERATIONS = 50;
 
