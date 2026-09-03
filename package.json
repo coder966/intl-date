@@ -24,7 +24,7 @@
     "dist"
   ],
   "engines": {
-    "node": ">=10"
+    "node": ">=20"
   },
   "scripts": {
     "build": "rimraf dist && microbundle --format esm,cjs",
