@@ -1,34 +1,44 @@
 # Intl Date
 
-Javascript library to represent and work with dates in different calendar systems (e.g. hijri, persian and others).
+[![npm version](https://img.shields.io/npm/v/intl-date.svg)](https://www.npmjs.com/package/intl-date)
+[![License](https://img.shields.io/npm/l/intl-date.svg)](https://www.npmjs.com/package/intl-date)
+
+Convert, format, compare, and manipulate dates across Gregorian, Hijri (Islamic), Umm al-Qura, and Persian (Jalali) calendar systems in JavaScript and TypeScript.
+
+**Intl Date** is an immutable, dependency-free, ESM-only date library with a small, type-safe API for applications that need calendar conversion, localized date handling, or date arithmetic.
 
 ## Features
 
 - Simple and type-safe API
 - Immutable objects
 - Supports 7 calendar systems
+- Date conversion, formatting, comparison, and arithmetic
 - Tiny: 1kB (minified + gzipped)
-- Zero dependencies. Leverages `Intl.DateTimeFormat`.
+- Zero runtime dependencies
 
 ## Supported Calendars
 
-- gregorian
-- islamic
-- islamic-umalqura
-- islamic-rgsa
-- islamic-civil
-- islamic-tbla
-- persian
+| Identifier | Calendar |
+| --- | --- |
+| `gregorian` | Gregorian calendar |
+| `islamic` | Islamic calendar |
+| `islamic-umalqura` | Umm al-Qura calendar |
+| `islamic-rgsa` | Islamic calendar for Saudi Arabia |
+| `islamic-civil` | Islamic civil calendar |
+| `islamic-tbla` | Islamic tabular calendar |
+| `persian` | Persian (Jalali) calendar |
 
 ## Installation
 
-```shell
-$ npm install intl-date
+```bash
+npm install intl-date
 ```
 
 ## Example
 
 ```javascript
+import { IntlDate } from 'intl-date';
+
 const date = IntlDate.of('islamic-umalqura', 1377, 3, 22);
 
 date.toString('gregorian'); // 1957-10-16
