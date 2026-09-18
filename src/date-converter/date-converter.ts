@@ -17,6 +17,17 @@
 import type CalendarType from '../types/CalendarType';
 
 const MAX_ITERATIONS = 50;
+
+const AVERAGE_DAYS_PER_YEAR: Record<CalendarType, number> = {
+  gregorian: 365.2425,
+  islamic: 354.3667,
+  'islamic-umalqura': 354.3667,
+  'islamic-rgsa': 354.3667,
+  'islamic-civil': 354.3667,
+  'islamic-tbla': 354.3667,
+  persian: 365.2422,
+};
+
 const FORMATTERS = new Map<CalendarType, Intl.DateTimeFormat>();
 
 /**
@@ -121,7 +132,21 @@ const toGregorian = (calendarType: CalendarType, y: number, m: number, d: number
   let iteration = 0;
 
   do {
-    const adjustDays = y * 365 + m * 30 + d - (convertedGuess[0] * 365 + convertedGuess[1] * 30 + convertedGuess[2]);
+    const daysPerYear = AVERAGE_DAYS_PER_YEAR[calendarType] ?? 365;
+    const daysPerMonth = daysPerYear / 12;
+
+    let adjustDays = Math.round(
+      (y - convertedGuess[0]) * daysPerYear +
+      (m - convertedGuess[1]) * daysPerMonth +
+      (d - convertedGuess[2]),
+    );
+
+    // Ensure rounding does not stall the conversion near a month or year boundary.
+    const comparison = convertedGuess[0] - y || convertedGuess[1] - m || convertedGuess[2] - d;
+    if (adjustDays === 0 && comparison !== 0) {
+      adjustDays = comparison < 0 ? 1 : -1;
+    }
+
     guess.setDate(guess.getDate() + adjustDays);
     convertedGuess = fromGregorian(calendarType, guess);
 
