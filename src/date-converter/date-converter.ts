@@ -17,17 +17,29 @@
 import type CalendarType from '../types/CalendarType';
 
 const MAX_ITERATIONS = 50;
+const formatters = new Map<CalendarType, Intl.DateTimeFormat>();
+
+const getFormatter = (calendarType: CalendarType): Intl.DateTimeFormat => {
+  let formatter = formatters.get(calendarType);
+
+  if (!formatter) {
+    const intlCalendarType = calendarType === 'gregorian' ? 'gregory' : calendarType;
+    formatter = new Intl.DateTimeFormat(`en-u-ca-${intlCalendarType}`, {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    });
+    formatters.set(calendarType, formatter);
+  }
+
+  return formatter;
+};
 
 /**
  * @author Khalid H. Alharisi
  */
 const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
-  const intlCalendarType = calendarType === 'gregorian' ? 'gregory' : calendarType;
-  const parts = new Intl.DateTimeFormat(`en-u-ca-${intlCalendarType}`, {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric',
-  }).formatToParts(date);
+  const parts = getFormatter(calendarType).formatToParts(date);
 
   const y = parseInt(parts.find((p) => p.type === 'year')?.value + '');
   const m = parseInt(parts.find((p) => p.type === 'month')?.value + '');
