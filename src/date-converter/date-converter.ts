@@ -17,10 +17,13 @@
 import type CalendarType from '../types/CalendarType';
 
 const MAX_ITERATIONS = 50;
-const formatters = new Map<CalendarType, Intl.DateTimeFormat>();
+const FORMATTERS = new Map<CalendarType, Intl.DateTimeFormat>();
 
+/**
+ * @author Khalid H. Alharisi
+ */
 const getFormatter = (calendarType: CalendarType): Intl.DateTimeFormat => {
-  let formatter = formatters.get(calendarType);
+  let formatter = FORMATTERS.get(calendarType);
 
   if (!formatter) {
     const intlCalendarType = calendarType === 'gregorian' ? 'gregory' : calendarType;
@@ -29,7 +32,7 @@ const getFormatter = (calendarType: CalendarType): Intl.DateTimeFormat => {
       month: 'numeric',
       year: 'numeric',
     });
-    formatters.set(calendarType, formatter);
+    FORMATTERS.set(calendarType, formatter);
   }
 
   return formatter;
@@ -62,31 +65,75 @@ const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
   return [year, month, day];
 };
 
+type ConversionReference = {
+  date: Date;
+  year: number;
+  month: number;
+  day: number;
+};
+
+const CONVERSION_REFERENCES = new Map<CalendarType, ConversionReference>();
+
+/**
+ * Returns a cached reference point for converting dates from the specified
+ * calendar to Gregorian. The reference contains today's date at midnight and
+ * its corresponding year, month, and day in the requested calendar. It is
+ * used as the initial guess for the iterative conversion in `toGregorian`.
+ *
+ * This is to have a good start. The date itself does not matter.
+ *
+ * Instead of having a static lookup map, we do this on the fly, so that we are dynamic and don't forget a calendar.
+ * The reference is calculated by starting with a Gregorian date and converting it to the required calendar,
+ * which is trivial.
+ *
+ * @author Khalid H. Alharisi
+ */
+const getConversionReference = (calendarType: CalendarType): ConversionReference => {
+  let reference = CONVERSION_REFERENCES.get(calendarType);
+
+  if (!reference) {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+
+    const converted = fromGregorian(calendarType, date);
+
+    reference = {
+      date: date,
+      year: converted[0],
+      month: converted[1],
+      day: converted[2],
+    };
+
+    CONVERSION_REFERENCES.set(calendarType, reference);
+  }
+
+  return reference;
+};
+
 /**
  * @author Khalid H. Alharisi
  */
 const toGregorian = (calendarType: CalendarType, y: number, m: number, d: number): Date => {
-  let guess = new Date();
+  const reference = getConversionReference(calendarType);
+  const guess = new Date(reference.date);
 
-  // wipe out time information
-  guess.setHours(0);
-  guess.setMinutes(0);
-  guess.setSeconds(0);
-  guess.setMilliseconds(0);
+  let convertedGuess = [reference.year, reference.month, reference.day];
+  let iteration = 0;
 
-  let convertedGuess = fromGregorian(calendarType, guess);
-
-  let iterations = 0;
-  while (convertedGuess[0] !== y || convertedGuess[1] !== m || convertedGuess[2] !== d) {
-    iterations++;
-    if (iterations > MAX_ITERATIONS) {
-      throw `toGregorian: Could not find a conversion within the defined max iterations limit.`;
-    }
-
+  do {
     const adjustDays = y * 365 + m * 30 + d - (convertedGuess[0] * 365 + convertedGuess[1] * 30 + convertedGuess[2]);
     guess.setDate(guess.getDate() + adjustDays);
     convertedGuess = fromGregorian(calendarType, guess);
-  }
+
+    if (convertedGuess[0] === y && convertedGuess[1] === m && convertedGuess[2] === d) {
+      break;
+    }
+
+    iteration++;
+    if (iteration > MAX_ITERATIONS) {
+      throw `toGregorian: Could not find a conversion within the defined max iterations limit.`;
+    }
+  } while (true);
 
   return guess;
 };
