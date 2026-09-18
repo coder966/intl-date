@@ -61,6 +61,7 @@
   },
   "scripts": {
     "build": "vite build && tsc --project tsconfig.build.json",
+    "benchmark": "npm run build && node benchmark.js",
     "prepare": "npm run build",
     "test": "jest"
   },

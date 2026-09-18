@@ -15,7 +15,6 @@
  */
 
 import { describe, test, expect } from '@jest/globals';
-import benchmark from '../benchmark';
 import { fromGregorian, toGregorian } from './date-converter';
 import type CalendarType from '../types/CalendarType';
 
@@ -84,16 +83,4 @@ describe('date-converter', () => {
     expect(() => fromGregorian('unsupported' as CalendarType, new Date(2024, 1, 29))).toThrow();
   });
 
-  test('perf: fromGregorian throughput', () => {
-    const input = new Date('1957-10-16');
-    benchmark('fromGregorian', 1000, () => {
-      fromGregorian('islamic-umalqura', input);
-    });
-  });
-
-  test('perf: toGregorian throughput', () => {
-    benchmark('toGregorian', 1000, () => {
-      toGregorian('islamic-umalqura', 1377, 3, 22);
-    });
-  });
 });
