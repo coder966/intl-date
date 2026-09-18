@@ -17,13 +17,15 @@
 import { performance } from 'node:perf_hooks';
 import { IntlDate } from './dist/index.js';
 
-const ITERATIONS = 10_000;
-const WARMUP_ITERATIONS = 2_000;
+const ITERATIONS = 100_000;
+const WARMUP_ITERATIONS = 10_000;
 
 /**
  * This ensures the returned values are consumed, helping prevent the runtime from optimizing the work away
  */
 let checksum = 0;
+
+let sumOperationsPerSecond = 0;
 
 const benchmark = (name, task) => {
   for (let i = 0; i < WARMUP_ITERATIONS; i++) {
@@ -39,12 +41,15 @@ const benchmark = (name, task) => {
   const elapsed = performance.now() - start;
   const operationsPerSecond = (ITERATIONS / elapsed) * 1000;
 
+  sumOperationsPerSecond = sumOperationsPerSecond + operationsPerSecond;
+
   console.log(`${name.padEnd(34)} ${Math.round(operationsPerSecond).toLocaleString().padStart(14)} ops/s`);
 };
 
 const date = IntlDate.of('gregorian', 2024, 2, 29);
 const laterDate = IntlDate.of('gregorian', 2025, 2, 28);
 
+console.log('-------------------------------------------------------');
 console.log(`IntlDate benchmark (${ITERATIONS.toLocaleString()} measured iterations)`);
 console.log('-------------------------------------------------------');
 
@@ -79,5 +84,10 @@ benchmark('IntlDate.plusDays', () => {
 benchmark('IntlDate.isBefore', () => {
   return date.isBefore(laterDate) ? 1 : 0;
 });
+
+console.log('-------------------------------------------------------');
+console.log(`Total (${Math.round(sumOperationsPerSecond).toLocaleString()} ops/s)`);
+console.log('-------------------------------------------------------');
+
 
 console.log(`\nChecksum: ${checksum}`);
