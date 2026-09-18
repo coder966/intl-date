@@ -14,80 +14,50 @@
  * limitations under the License.
  */
 
-import { performance } from 'node:perf_hooks';
+import { Bench } from 'tinybench';
 import { IntlDate } from './dist/index.js';
-
-const ITERATIONS = 100_000;
-const WARMUP_ITERATIONS = 10_000;
 
 /**
  * This ensures the returned values are consumed, helping prevent the runtime from optimizing the work away
  */
 let checksum = 0;
 
-let sumOperationsPerSecond = 0;
-
-const benchmark = (name, task) => {
-  for (let i = 0; i < WARMUP_ITERATIONS; i++) {
-    task();
-  }
-
-  const start = performance.now();
-
-  for (let i = 0; i < ITERATIONS; i++) {
-    checksum += task();
-  }
-
-  const elapsed = performance.now() - start;
-  const operationsPerSecond = (ITERATIONS / elapsed) * 1000;
-
-  sumOperationsPerSecond = sumOperationsPerSecond + operationsPerSecond;
-
-  console.log(`${name.padEnd(34)} ${Math.round(operationsPerSecond).toLocaleString().padStart(14)} ops/s`);
-};
-
 const date = IntlDate.of('gregorian', 2024, 2, 29);
 const laterDate = IntlDate.of('gregorian', 2025, 2, 28);
 
-console.log('-------------------------------------------------------');
-console.log(`IntlDate benchmark (${ITERATIONS.toLocaleString()} measured iterations)`);
-console.log('-------------------------------------------------------');
-
-benchmark('IntlDate.of (Gregorian)', () => {
-  return IntlDate.of('gregorian', 2024, 2, 29).getDayOfWeek();
+const bench = new Bench({
+  name: 'IntlDate benchmark',
+  time: 1_000,
+  warmupTime: 500,
 });
 
-benchmark('IntlDate.of (Umm al-Qura)', () => {
-  return IntlDate.of('islamic-umalqura', 1377, 3, 22).getDayOfWeek();
-});
+bench
+  .add('IntlDate.of (Gregorian)', () => {
+    checksum += IntlDate.of('gregorian', 2024, 2, 29).getDayOfWeek();
+  })
+  .add('IntlDate.of (Umm al-Qura)', () => {
+    checksum += IntlDate.of('islamic-umalqura', 1377, 3, 22).getDayOfWeek();
+  })
+  .add('IntlDate.parse', () => {
+    checksum += IntlDate.parse('gregorian', '2024-02-29').getDayOfWeek();
+  })
+  .add('IntlDate.getYear (gregorian)', () => {
+    checksum += date.getYear('gregorian');
+  })
+  .add('IntlDate.getYear (converted)', () => {
+    checksum += date.getYear('islamic-umalqura');
+  })
+  .add('IntlDate.format', () => {
+    checksum += date.format('islamic-umalqura', 'yyyy-MM-dd').length;
+  })
+  .add('IntlDate.plusDays', () => {
+    checksum += date.plusDays(1).getDayOfWeek();
+  })
+  .add('IntlDate.isBefore', () => {
+    checksum += date.isBefore(laterDate) ? 1 : 0;
+  });
 
-benchmark('IntlDate.parse', () => {
-  return IntlDate.parse('gregorian', '2024-02-29').getDayOfWeek();
-});
-
-benchmark('IntlDate.getYear (gregorian)', () => {
-  return date.getYear('gregorian');
-});
-
-benchmark('IntlDate.getYear (converted)', () => {
-  return date.getYear('islamic-umalqura');
-});
-
-benchmark('IntlDate.format', () => {
-  return date.format('islamic-umalqura', 'yyyy-MM-dd').length;
-});
-
-benchmark('IntlDate.plusDays', () => {
-  return date.plusDays(1).getDayOfWeek();
-});
-
-benchmark('IntlDate.isBefore', () => {
-  return date.isBefore(laterDate) ? 1 : 0;
-});
-
-console.log('-------------------------------------------------------');
-console.log(`Total (${Math.round(sumOperationsPerSecond).toLocaleString()} ops/s)`);
-console.log('-------------------------------------------------------');
-
+await bench.run();
+console.table(bench.table());
 
 console.log(`\nChecksum: ${checksum}`);
