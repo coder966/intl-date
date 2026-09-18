@@ -39,13 +39,27 @@ const getFormatter = (calendarType: CalendarType): Intl.DateTimeFormat => {
  * @author Khalid H. Alharisi
  */
 const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
+  let year = Number.NaN;
+  let month = Number.NaN;
+  let day = Number.NaN;
+
   const parts = getFormatter(calendarType).formatToParts(date);
 
-  const y = parseInt(parts.find((p) => p.type === 'year')?.value + '');
-  const m = parseInt(parts.find((p) => p.type === 'month')?.value + '');
-  const d = parseInt(parts.find((p) => p.type === 'day')?.value + '');
+  for (const part of parts) {
+    switch (part.type) {
+      case 'year':
+        year = parseInt(part.value);
+        break;
+      case 'month':
+        month = parseInt(part.value);
+        break;
+      case 'day':
+        day = parseInt(part.value);
+        break;
+    }
+  }
 
-  return [y, m, d];
+  return [year, month, day];
 };
 
 /**
