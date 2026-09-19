@@ -15,7 +15,7 @@
  */
 
 import IntlDate from './IntlDate/IntlDate';
-import type CalendarType from './types/CalendarType';
+import type { CalendarType } from './calendars/calendars';
 
 export { IntlDate };
 export type { CalendarType };

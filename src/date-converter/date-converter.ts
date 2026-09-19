@@ -14,40 +14,9 @@
  * limitations under the License.
  */
 
-import type CalendarType from '../types/CalendarType';
+import { CALENDAR_CONFIG, type CalendarType } from '../calendars/calendars';
 
 const MAX_ITERATIONS = 50;
-
-const AVERAGE_DAYS_PER_YEAR: Record<CalendarType, number> = {
-  gregorian: 365.2425,
-  islamic: 354.3667,
-  'islamic-umalqura': 354.3667,
-  'islamic-rgsa': 354.3667,
-  'islamic-civil': 354.3667,
-  'islamic-tbla': 354.3667,
-  persian: 365.2422,
-};
-
-const FORMATTERS = new Map<CalendarType, Intl.DateTimeFormat>();
-
-/**
- * @author Khalid H. Alharisi
- */
-const getFormatter = (calendarType: CalendarType): Intl.DateTimeFormat => {
-  let formatter = FORMATTERS.get(calendarType);
-
-  if (!formatter) {
-    const intlCalendarType = calendarType === 'gregorian' ? 'gregory' : calendarType;
-    formatter = new Intl.DateTimeFormat(`en-u-ca-${intlCalendarType}`, {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
-    });
-    FORMATTERS.set(calendarType, formatter);
-  }
-
-  return formatter;
-};
 
 /**
  * @author Khalid H. Alharisi
@@ -57,7 +26,7 @@ const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
   let month = Number.NaN;
   let day = Number.NaN;
 
-  const parts = getFormatter(calendarType).formatToParts(date);
+  const parts = CALENDAR_CONFIG[calendarType].formatter.formatToParts(date);
 
   for (const part of parts) {
     switch (part.type) {
@@ -76,65 +45,20 @@ const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
   return [year, month, day];
 };
 
-type ConversionReference = {
-  date: Date;
-  year: number;
-  month: number;
-  day: number;
-};
-
-const CONVERSION_REFERENCES = new Map<CalendarType, ConversionReference>();
-
-/**
- * Returns a cached reference point for converting dates from the specified
- * calendar to Gregorian. The reference contains today's date at midnight and
- * its corresponding year, month, and day in the requested calendar. It is
- * used as the initial guess for the iterative conversion in `toGregorian`.
- *
- * This is to have a good start. The date itself does not matter.
- *
- * Instead of having a static lookup map, we do this on the fly, so that we are dynamic and don't forget a calendar.
- * The reference is calculated by starting with a Gregorian date and converting it to the required calendar,
- * which is trivial.
- *
- * @author Khalid H. Alharisi
- */
-const getConversionReference = (calendarType: CalendarType): ConversionReference => {
-  let reference = CONVERSION_REFERENCES.get(calendarType);
-
-  if (!reference) {
-    const date = new Date();
-    date.setHours(0, 0, 0, 0);
-
-    const converted = fromGregorian(calendarType, date);
-
-    reference = {
-      date: date,
-      year: converted[0],
-      month: converted[1],
-      day: converted[2],
-    };
-
-    CONVERSION_REFERENCES.set(calendarType, reference);
-  }
-
-  return reference;
-};
-
 /**
  * @author Khalid H. Alharisi
  */
 const toGregorian = (calendarType: CalendarType, y: number, m: number, d: number): Date => {
-  const reference = getConversionReference(calendarType);
-  const guess = new Date(reference.date);
+  const daysPerYear = CALENDAR_CONFIG[calendarType].averageDaysPerYear;
+  const daysPerMonth = daysPerYear / 12;
 
+  const reference = CALENDAR_CONFIG[calendarType].reference;
+  const guess = new Date(reference.date);
   let convertedGuess = [reference.year, reference.month, reference.day];
+
   let iteration = 0;
 
   do {
-    const daysPerYear = AVERAGE_DAYS_PER_YEAR[calendarType] ?? 365;
-    const daysPerMonth = daysPerYear / 12;
-
     let adjustDays = Math.round(
       (y - convertedGuess[0]) * daysPerYear +
       (m - convertedGuess[1]) * daysPerMonth +

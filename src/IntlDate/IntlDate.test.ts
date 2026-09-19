@@ -16,7 +16,7 @@
 
 import { describe, test, expect } from '@jest/globals';
 import IntlDate from './IntlDate';
-import type CalendarType from '../types/CalendarType';
+import type { CalendarType } from '../calendars/calendars';
 
 const supportedCalendarTypes: CalendarType[] = [
   'gregorian',

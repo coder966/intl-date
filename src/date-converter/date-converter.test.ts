@@ -16,7 +16,7 @@
 
 import { describe, test, expect } from '@jest/globals';
 import { fromGregorian, toGregorian } from './date-converter';
-import type CalendarType from '../types/CalendarType';
+import type { CalendarType } from '../calendars/calendars';
 
 const supportedCalendarTypes: CalendarType[] = [
   'gregorian',
@@ -28,7 +28,7 @@ const supportedCalendarTypes: CalendarType[] = [
   'persian',
 ];
 
-describe('date-converter', () => {
+describe('converters', () => {
   test('fromGregorian: past date', () => {
     const output = fromGregorian('islamic-umalqura', new Date('1957-10-16'));
     expect(output).toBeTruthy();
