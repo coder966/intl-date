@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { fromGregorian, toGregorian } from '../date-converter/date-converter';
+import { fromGregorian, toGregorian } from '../converters/converters';
 import type { CalendarType } from '../calendars/calendars';
 
 /**

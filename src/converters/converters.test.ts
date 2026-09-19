@@ -15,7 +15,7 @@
  */
 
 import { describe, test, expect } from '@jest/globals';
-import { fromGregorian, toGregorian } from './date-converter';
+import { fromGregorian, toGregorian } from './converters';
 import type { CalendarType } from '../calendars/calendars';
 
 const supportedCalendarTypes: CalendarType[] = [
