@@ -18,6 +18,17 @@ import { CALENDAR_CONFIG, type CalendarType } from '../calendars/calendars';
 
 const MAX_ITERATIONS = 50;
 
+// Minimal typing keeps the package compatible with TypeScript/Node versions
+// whose standard declarations do not include Temporal yet.
+type NativeTemporal = {
+  PlainDate: {
+    from(
+      fields: { calendar: string; year: number; month: number; day: number },
+      options: { overflow: 'reject' },
+    ): { withCalendar(calendar: string): { year: number; month: number; day: number } };
+  };
+};
+
 /**
  * @author Khalid H. Alharisi
  */
@@ -49,6 +60,22 @@ const fromGregorian = (calendarType: CalendarType, date: Date): number[] => {
  * @author Khalid H. Alharisi
  */
 const toGregorian = (calendarType: CalendarType, y: number, m: number, d: number): Date => {
+  // @ts-ignore
+  const temporal : NativeTemporal | undefined = globalThis.Temporal;
+
+  // Temporal does not support islamic-rgsa calendar
+  if (temporal && temporal.PlainDate && calendarType !== 'islamic-rgsa') {
+    try {
+      const iso = temporal.PlainDate.from(
+        { calendar: calendarType === 'gregorian' ? 'gregory' : calendarType, year: y, month: m, day: d },
+        { overflow: 'reject' },
+      ).withCalendar('gregory');
+      return new Date(iso.year, iso.month - 1, iso.day, 0, 0, 0, 0);
+    } catch (error) {
+      // Calendar/date support can vary by runtime; fallback to my old implementation
+    }
+  }
+
   const daysPerYear = CALENDAR_CONFIG[calendarType].averageDaysPerYear;
   const daysPerMonth = daysPerYear / 12;
 

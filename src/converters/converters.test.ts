@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { describe, test, expect } from '@jest/globals';
+import { describe, test, expect, jest } from '@jest/globals';
 import { fromGregorian, toGregorian } from './converters';
 import type { CalendarType } from '../calendars/calendars';
 
@@ -28,6 +28,7 @@ const supportedCalendarTypes: CalendarType[] = [
 ];
 
 describe('converters', () => {
+
   test('fromGregorian: past date', () => {
     const output = fromGregorian('islamic-umalqura', new Date(1957, 9, 16));
     expect(output).toBeTruthy();
@@ -93,6 +94,29 @@ describe('converters', () => {
     const result = toGregorian('gregorian', 1997, 1, 2);
     expect([result.getFullYear(), result.getMonth(), result.getDate()]).toEqual([1997, 0, 2]);
     expect([result.getHours(), result.getMinutes(), result.getSeconds(), result.getMilliseconds()]).toEqual([0, 0, 0, 0]);
+  });
+
+  test('uses Temporal when available and falls back when it is not available or it rejects a calendar/date', () => {
+    const expected = new Date(1957, 9, 16);
+    // @ts-ignore
+    const temporal = globalThis.Temporal;
+
+    // use Temporal
+    if(temporal !== undefined){
+      const from = jest.spyOn(temporal.PlainDate, 'from');
+      expect(toGregorian('islamic-umalqura', 1377, 3, 22)).toEqual(expected);
+      expect(from).toHaveBeenCalledWith(
+        { calendar: 'islamic-umalqura', year: 1377, month: 3, day: 22 },
+        { overflow: 'reject' },
+      );
+
+      // also test that it falls back when Temporal rejects a calendar/date
+      from.mockImplementationOnce(() => { throw new Error('Unsupported calendar'); });
+      expect(toGregorian('islamic-umalqura', 1377, 3, 22)).toEqual(expected);
+    }else{
+      // it should still work without Temporal
+      expect(toGregorian('islamic-umalqura', 1377, 3, 22)).toEqual(expected);
+    }
   });
 
 });
