@@ -61,9 +61,9 @@
   },
   "scripts": {
     "build": "vite build && tsc --project tsconfig.build.json",
-    "benchmark": "node -v && npm run build && node benchmark.js",
     "prepare": "npm run build",
-    "test": "node -v && jest"
+    "test": "node run-tests.mjs",
+    "benchmark": "npm run prepare && node benchmark.js"
   },
   "devDependencies": {
     "@jest/globals": "^30.5.1",

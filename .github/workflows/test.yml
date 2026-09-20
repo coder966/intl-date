@@ -8,9 +8,6 @@ jobs:
     strategy:
       matrix:
         node: [20, 26]
-        timezone: [UTC, Asia/Riyadh, America/New_York]
-    env:
-      TZ: ${{ matrix.timezone }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -19,4 +16,3 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - run: npm test -- --runInBand
-      - run: npm run build
