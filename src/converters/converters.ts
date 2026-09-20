@@ -75,7 +75,7 @@ const toGregorian = (calendarType: CalendarType, y: number, m: number, d: number
     convertedGuess = fromGregorian(calendarType, guess);
 
     if (convertedGuess[0] === y && convertedGuess[1] === m && convertedGuess[2] === d) {
-      break;
+      break; // we have now verified the conversion
     }
 
     iteration++;
