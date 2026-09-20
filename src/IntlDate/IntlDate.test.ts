@@ -20,7 +20,6 @@ import type { CalendarType } from '../calendars/calendars';
 
 const supportedCalendarTypes: CalendarType[] = [
   'gregorian',
-  'islamic',
   'islamic-umalqura',
   'islamic-rgsa',
   'islamic-civil',

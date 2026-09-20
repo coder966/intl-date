@@ -87,7 +87,6 @@ class IntlDate {
   private validateSupportedCalendarType = (calendarType: string): void => {
     switch (calendarType) {
       case 'gregorian':
-      case 'islamic':
       case 'islamic-umalqura':
       case 'islamic-rgsa':
       case 'islamic-civil':

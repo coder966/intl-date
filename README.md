@@ -18,15 +18,14 @@ Convert, format, compare, and manipulate dates across Gregorian, Hijri (Islamic)
 
 ## Supported Calendars
 
-| Identifier | Calendar |
-| --- | --- |
-| `gregorian` | Gregorian calendar |
-| `islamic` | Islamic calendar |
-| `islamic-umalqura` | Umm al-Qura calendar |
+| Identifier | Calendar                          |
+| --- |-----------------------------------|
+| `gregorian` | Gregorian calendar                |
+| `islamic-umalqura` | Islamic Umm al-Qura calendar      |
+| `islamic-civil` | Islamic civil calendar            |
+| `islamic-tbla` | Islamic tabular calendar          |
 | `islamic-rgsa` | Islamic calendar for Saudi Arabia |
-| `islamic-civil` | Islamic civil calendar |
-| `islamic-tbla` | Islamic tabular calendar |
-| `persian` | Persian (Jalali) calendar |
+| `persian` | Persian (Jalali) calendar         |
 
 ## Installation
 

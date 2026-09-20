@@ -36,11 +36,6 @@ const CALENDAR_CONFIG = {
     reference: { date: new Date(1932, 8, 23), year: 1932, month: 9, day: 23 },
     averageDaysPerYear: 365.2425,
   },
-  islamic: {
-    formatter: new Intl.DateTimeFormat('en-u-ca-islamic', FORMAT_OPTIONS),
-    reference: { date: new Date(1932, 8, 23), year: 1351, month: 5, day: 23 },
-    averageDaysPerYear: 354.3667,
-  },
   'islamic-umalqura': {
     formatter: new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', FORMAT_OPTIONS),
     reference: { date: new Date(1932, 8, 23), year: 1351, month: 5, day: 22 },
