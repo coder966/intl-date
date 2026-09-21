@@ -1,6 +1,6 @@
 {
   "name": "intl-date",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Immutable TypeScript/JavaScript date library for Gregorian, Hijri/Islamic, Umm al-Qura, and Persian/Jalali calendar conversion, formatting, comparison, and date arithmetic.",
   "keywords": [
     "date",
