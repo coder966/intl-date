@@ -10,8 +10,9 @@ Convert, format, compare, and manipulate dates across Gregorian, Hijri (Islamic)
 ## Features
 
 - Simple and type-safe API
+- Superfast
 - Immutable objects
-- Supports 7 calendar systems
+- Supports 6 calendar systems
 - Date conversion, formatting, comparison, and arithmetic
 - Tiny: 1kB (minified + gzipped)
 - Zero runtime dependencies
