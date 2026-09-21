@@ -79,6 +79,31 @@ describe('converters', () => {
     }
   });
 
+  test('round-trips dates around DST transitions for every supported calendar', () => {
+    // The suite's America/New_York run crosses the 2024 spring and fall transitions.
+    const dates = [
+      new Date(2024, 2, 9),
+      new Date(2024, 2, 10),
+      new Date(2024, 2, 11),
+      new Date(2024, 10, 2),
+      new Date(2024, 10, 3),
+      new Date(2024, 10, 4),
+    ];
+
+    for (const calendarType of supportedCalendarTypes) {
+      for (const input of dates) {
+        const [year, month, day] = fromGregorian(calendarType, input);
+        const output = toGregorian(calendarType, year, month, day);
+
+        expect([output.getFullYear(), output.getMonth() + 1, output.getDate()]).toEqual([
+          input.getFullYear(),
+          input.getMonth() + 1,
+          input.getDate(),
+        ]);
+      }
+    }
+  });
+
   test('rejects unsupported calendar types', () => {
     expect(() => fromGregorian('unsupported' as CalendarType, new Date(2024, 1, 29))).toThrow();
   });

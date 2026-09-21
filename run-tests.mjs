@@ -11,7 +11,7 @@ const timeZones = [
   'UTC',
   'Asia/Tokyo',
   'Africa/Cairo',
-  'America/New_York',
+  'America/New_York', // this timezone has DST, so keep and we have unit tests that depend on it
 ];
 
 for (const timeZone of timeZones) {

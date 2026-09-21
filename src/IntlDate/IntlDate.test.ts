@@ -252,6 +252,20 @@ describe('IntlDate', () => {
     expect(date2.daysUntil(date1)).toEqual(-35);
   });
 
+  // run-tests.mjs includes America/New_York, where these dates cross its 2024 DST transitions.
+  test.each([
+    { transition: 'spring-forward', month: 3, startDay: 9, endDay: 11 },
+    { transition: 'fall-back', month: 11, startDay: 2, endDay: 4 },
+  ])('counts calendar days across the $transition DST transition', ({ month, startDay, endDay }) => {
+    const start = IntlDate.of('gregorian', 2024, month, startDay);
+    const end = IntlDate.of('gregorian', 2024, month, endDay);
+
+    expect(start.plusDays(endDay - startDay).toString('gregorian')).toBe(end.toString('gregorian'));
+    expect(end.minusDays(endDay - startDay).toString('gregorian')).toBe(start.toString('gregorian'));
+    expect(start.daysUntil(end)).toBe(endDay - startDay);
+    expect(end.daysUntil(start)).toBe(startDay - endDay);
+  });
+
   test('min', () => {
     const date1 = IntlDate.of('gregorian', 1957, 10, 16);
     const date2 = IntlDate.of('gregorian', 1957, 10, 20);
